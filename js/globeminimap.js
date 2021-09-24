@@ -28,11 +28,11 @@ var worlddata = {"type":"Topology","objects":{"land":{"type":"MultiPolygon","arc
 		//layer is the map layer to be shown in the minimap
 		initialize: function (options) {
 			L.Util.setOptions(this, options);
-			console.log(this.options);
+			//console.log(this.options);
 		},
 
 		onAdd: function (map) {
-			console.log('onAdd()');
+			//console.log('onAdd()');
 
 			this._mainMap = map;
 
@@ -56,7 +56,7 @@ var worlddata = {"type":"Topology","objects":{"land":{"type":"MultiPolygon","arc
 		},
 
 		addTo: function (map) {
-			console.log('addTo()');
+			//console.log('addTo()');
 			L.Control.prototype.addTo.call(this, map);
 			this.initCanvas();
 
@@ -102,7 +102,7 @@ var worlddata = {"type":"Topology","objects":{"land":{"type":"MultiPolygon","arc
 		},
 
 		transitionMap: function (p) {
-			console.log('transtionMap');
+			//console.log('transtionMap');
 			var that = this;
 			var c = that.c;
 			var path = that.path;
@@ -120,37 +120,37 @@ var worlddata = {"type":"Topology","objects":{"land":{"type":"MultiPolygon","arc
           };
         })
 		},
-	
+
 		onRemove: function (map) {
 			this._mainMap.off('moveend', this._onMainMapMoved, this);
 			this._mainMap.off('move', this._onMainMapMoving, this);
 		},
-	
+
 		_onMainMapMoved: function (e) {
-			console.log('mainmapmoved');
+			//console.log('mainmapmoved');
 			if (!this._miniMapMoving) {
 				this._mainMapMoving = true;
-			
+
 				this.transitionMap(this._mainMap.getCenter());
-	
+
 			} else {
 				this._miniMapMoving = false;
-			}	
+			}
 		}
 	});
 
 	L.control.globeminimap = function (layer, options) {
 	return new L.Control.GlobeMiniMap(layer, options);
 	};
-	
+
 	L.Map.mergeOptions({
 		miniMapControl: false
 	});
-	
+
 	L.Map.addInitHook(function () {
 		if (this.options.miniMapControl) {
 			this.miniMapControl = (new GlobeMiniMap()).addTo(this);
 		}
 	});
-		
-}, window)); 
+
+}, window));

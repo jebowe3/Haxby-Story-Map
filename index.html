@@ -45,24 +45,32 @@
 		<div class="collapse navbar-collapse">
 			<ul class="nav navbar-nav navbar-right">
 				<li>
-					<a href="javascript:window.scrollBy(0,$('section[data-scene=scene1]').offset().top-$(window).scrollTop()-40);">Scene 1</a>
+					<a href="javascript:window.scrollBy(0,$('section[data-scene=scene1]').offset().top-$(window).scrollTop()-40);">Home Page</a>
 				</li>
+<!--
 				<li>
 					<a href="javascript:window.scrollBy(0,$('section[data-scene=scene2]').offset().top-$(window).scrollTop()-40);">Scene 2</a>
 				</li>
-		<!--
+-->
 				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown Content<span class="caret"></span></a>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Historical Seafloor Mapping<span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li>
-							<a href="javascript:window.scrollBy(0,$('section[data-scene=scene3]').offset().top-$(window).scrollTop()-40);">Content 1</a>
+							<a href="javascript:window.scrollBy(0,$('section[data-scene=scene1]').offset().top-$(window).scrollTop()-40);">Scene 1</a>
 						</li>
+						<li>
+							<a href="javascript:window.scrollBy(0,$('section[data-scene=scene2]').offset().top-$(window).scrollTop()-40);">Scene 2</a>
+						</li>
+						<li>
+							<a href="javascript:window.scrollBy(0,$('section[data-scene=scene3]').offset().top-$(window).scrollTop()-40);">Scene 3</a>
+						</li>
+<!--
 						<li>
 							<a href="javascript:window.scrollBy(0,$('section[data-scene=map_hex_case1]').offset().top-$(window).scrollTop()-40);">Content 2</a>
 						</li>
+-->
 					</ul>
 				</li>
-		-->
 			</ul>
 		</div>
 	</div>
@@ -72,6 +80,10 @@
 	<div class="row">
 		<div id="scenes" class="col-sm-6 col-md-4 main">
 
+			<section class="homepage" data-scene="homepage">
+        <h2>Home</h2>
+      </section>
+
 			<section class="scene1" data-scene="scene1">
         <h2>Scene 1</h2>
       </section>
@@ -79,11 +91,11 @@
 			<section class="scene2" data-scene="scene2">
 				<h2>Scene 2</h2>
 			</section>
-<!--
+
 			<section class="scene3" data-scene="scene3">
 				<h2>Scene 3</h2>
 			</section>
-
+<!--
 			<section class="scene4" data-scene="map_hex_case1">
 				<h2>Scene 4</h2>
       </section>
@@ -116,8 +128,10 @@
     };
 
     var scenes = {
+			homepage: {lat: 28.5, lng: -36, zoom: 4, name: "scene 1"},
 			scene1: {lat: 28.5, lng: -36, zoom: 4, layers: ['sb1875Layer', 'tharpLayer'], name: "scene 1"},
-      scene2: {lat: 28.5, lng:-36, zoom: 4, layers: ['tharpLayer', 'gmrtLayer'], name: 'scene 2'}
+      scene2: {lat: 28.5, lng:-36, zoom: 4, layers: ['tharpLayer', 'gmrtLayer'], name: "scene 2"},
+			scene3: {lat: 28.5, lng:-36, zoom: 4, layers: ['sb1875Layer', 'gmrtLayer'], name: "scene 3"}
     };
 
     $('.main').storymap({
@@ -137,19 +151,33 @@
 */
 						const layerControl1 = L.control.sideBySide(tharpLayer, sb1875Layer);
 						const layerControl2 = L.control.sideBySide(gmrtLayer, tharpLayer);
+						const layerControl3 = L.control.sideBySide(sb1875Layer, gmrtLayer);
 
+						const homepage = document.querySelector('.homepage');
 						const scene1 = document.querySelector('.scene1');
 						const scene2 = document.querySelector('.scene2');
+						const scene3 = document.querySelector('.scene3');
 
 						map.on('moveend', function () {
-/*
-							isInViewport(scene1) ?
+
+							if (isInViewport(homepage) && !isInViewport(scene3)) {
+								map.removeControl(layerControl1);
+								map.removeControl(layerControl2);
+								map.removeControl(layerControl3);
+							}
+
+							isInViewport(scene1) && !isInViewport(homepage) ?
 								map.addControl(layerControl1):
 	        			map.removeControl(layerControl1);
-*/
-							isInViewport(scene2) ?
+
+							isInViewport(scene2) && !isInViewport(scene1) ?
 								map.addControl(layerControl2):
 								map.removeControl(layerControl2);
+
+							isInViewport(scene3) && !isInViewport(scene2) ?
+								map.addControl(layerControl3):
+								map.removeControl(layerControl3);
+
 						});
 
             miniMap = new L.Control.GlobeMiniMap({
