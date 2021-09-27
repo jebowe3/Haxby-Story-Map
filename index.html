@@ -115,6 +115,10 @@
 
 <script type="text/javascript">
 
+		var Esri_WorldTerrain = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+			attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
+			maxZoom: 13
+		});
 		var mauryLayer = L.tileLayer('maury-1854-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 5});
 		var andreeLayer = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
 		var tharpLayer = L.tileLayer('heezen-tharp-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 7});
@@ -127,6 +131,7 @@
     };
 */
     var layers = {
+			'esriTerrain' : [Esri_WorldTerrain],
 			'mauryLayer' : [mauryLayer],
 			'andreeLayer' : [andreeLayer],
 			'tharpLayer' : [tharpLayer],
@@ -134,7 +139,7 @@
     };
 
     var scenes = {
-			homepage: {lat: 28.5, lng: -36, zoom: 4, layers: ['andreeLayer'], name: "scene 1"},
+			homepage: {lat: 28.5, lng: -36, zoom: 4, layers: ['esriTerrain'], name: "homepage"},
 			scene1: {lat: 28.5, lng: -36, zoom: 4, layers: ['mauryLayer', 'andreeLayer'], name: "scene 1"},
       scene2: {lat: 28.5, lng:-36, zoom: 4, layers: ['andreeLayer', 'tharpLayer'], name: "scene 2"},
 			scene3: {lat: 28.5, lng:-36, zoom: 4, layers: ['tharpLayer', 'gmrtLayer'], name: "scene 3"}
@@ -155,29 +160,42 @@
 							collapsed: false,
 						});
 */
-						const layerControl1 = L.control.sideBySide(mauryLayer, andreeLayer);
-						const layerControl2 = L.control.sideBySide(andreeLayer, tharpLayer);
-						const layerControl3 = L.control.sideBySide(tharpLayer, gmrtLayer);
+						const layerControl1 = L.control.sideBySide(mauryLayer, andreeLayer).setLeftLayers(mauryLayer);
+						const layerControl2 = L.control.sideBySide(andreeLayer, tharpLayer).setLeftLayers(andreeLayer);
+						const layerControl3 = L.control.sideBySide(tharpLayer, gmrtLayer).setLeftLayers(tharpLayer);
 
 						const homepage = document.querySelector('.homepage');
 						const scene1 = document.querySelector('.scene1');
 						const scene2 = document.querySelector('.scene2');
 						const scene3 = document.querySelector('.scene3');
 
-						//document.addEventListener('scroll', function () {
-						map.on('moveend', function () {
-							//console.log('You are scrolling!');
+						document.addEventListener('scroll', function () {
+						//map.on('moveend', function () {
+							console.log('You are scrolling!');
 							if (elementInViewport(homepage)) {
+								console.log('Homepage is in view.');
+							}
+							if (elementInViewport(scene1)) {
+								console.log('Scene 1 is in view.');
+							}
+							if (elementInViewport(scene2)) {
+								console.log('Scene 2 is in view.');
+							}
+							if (elementInViewport(scene3)) {
+								console.log('Scene 3 is in view.');
+							}
+							if (elementInViewport(homepage)) {
+								console.log('Homepage is in view.');
 								map.removeControl(layerControl1);
 								map.removeControl(layerControl2);
 								map.removeControl(layerControl3);
 							}
-							if (elementInViewport(scene1) && !elementInViewport(homepage)) {
+							if (elementInViewport(scene1) && !elementInViewport(homepage) || elementInViewport(scene1) && elementInViewport(scene2)) {
 								map.addControl(layerControl1);
 								map.removeControl(layerControl2);
 								map.removeControl(layerControl3);
 							}
-							if (elementInViewport(scene2) && !elementInViewport(scene1)) {
+							if (elementInViewport(scene2) && !elementInViewport(scene1) || elementInViewport(scene2) && elementInViewport(scene3)) {
 								map.addControl(layerControl2);
 								map.removeControl(layerControl1);
 								map.removeControl(layerControl3);
