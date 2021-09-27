@@ -115,7 +115,8 @@
 
 <script type="text/javascript">
 
-		var sb1875Layer = L.tileLayer('Stieler-Berghaus-1875-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 6});
+		var mauryLayer = L.tileLayer('maury-1854-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 5});
+		var andreeLayer = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
 		var tharpLayer = L.tileLayer('heezen-tharp-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 7});
     var gmrtLayer = L.tileLayer.wms('https://www.gmrt.org/services/mapserver/wms_merc?', {layers: 'topo'});
 
@@ -126,16 +127,17 @@
     };
 */
     var layers = {
-			'sb1875Layer' : [sb1875Layer],
+			'mauryLayer' : [mauryLayer],
+			'andreeLayer' : [andreeLayer],
 			'tharpLayer' : [tharpLayer],
 			'gmrtLayer' : [gmrtLayer]
     };
 
     var scenes = {
-			homepage: {lat: 28.5, lng: -36, zoom: 4, name: "scene 1"},
-			scene1: {lat: 28.5, lng: -36, zoom: 4, layers: ['sb1875Layer', 'tharpLayer'], name: "scene 1"},
-      scene2: {lat: 28.5, lng:-36, zoom: 4, layers: ['tharpLayer', 'gmrtLayer'], name: "scene 2"},
-			scene3: {lat: 28.5, lng:-36, zoom: 4, layers: ['sb1875Layer', 'gmrtLayer'], name: "scene 3"}
+			homepage: {lat: 28.5, lng: -36, zoom: 4, layers: ['andreeLayer'], name: "scene 1"},
+			scene1: {lat: 28.5, lng: -36, zoom: 4, layers: ['mauryLayer', 'andreeLayer'], name: "scene 1"},
+      scene2: {lat: 28.5, lng:-36, zoom: 4, layers: ['andreeLayer', 'tharpLayer'], name: "scene 2"},
+			scene3: {lat: 28.5, lng:-36, zoom: 4, layers: ['tharpLayer', 'gmrtLayer'], name: "scene 3"}
     };
 
     $('.main').storymap({
@@ -153,36 +155,41 @@
 							collapsed: false,
 						});
 */
-						const layerControl1 = L.control.sideBySide(tharpLayer, sb1875Layer);
-						const layerControl2 = L.control.sideBySide(gmrtLayer, tharpLayer);
-						const layerControl3 = L.control.sideBySide(sb1875Layer, gmrtLayer);
+						const layerControl1 = L.control.sideBySide(mauryLayer, andreeLayer);
+						const layerControl2 = L.control.sideBySide(andreeLayer, tharpLayer);
+						const layerControl3 = L.control.sideBySide(tharpLayer, gmrtLayer);
 
 						const homepage = document.querySelector('.homepage');
 						const scene1 = document.querySelector('.scene1');
 						const scene2 = document.querySelector('.scene2');
 						const scene3 = document.querySelector('.scene3');
 
+						//document.addEventListener('scroll', function () {
 						map.on('moveend', function () {
-
-							if (isInViewport(homepage) && !isInViewport(scene3)) {
+							//console.log('You are scrolling!');
+							if (elementInViewport(homepage)) {
 								map.removeControl(layerControl1);
 								map.removeControl(layerControl2);
 								map.removeControl(layerControl3);
 							}
-
-							isInViewport(scene1) && !isInViewport(homepage) ?
-								map.addControl(layerControl1):
-	        			map.removeControl(layerControl1);
-
-							isInViewport(scene2) && !isInViewport(scene1) ?
-								map.addControl(layerControl2):
+							if (elementInViewport(scene1) && !elementInViewport(homepage)) {
+								map.addControl(layerControl1);
 								map.removeControl(layerControl2);
-
-							isInViewport(scene3) && !isInViewport(scene2) ?
-								map.addControl(layerControl3):
 								map.removeControl(layerControl3);
-
+							}
+							if (elementInViewport(scene2) && !elementInViewport(scene1)) {
+								map.addControl(layerControl2);
+								map.removeControl(layerControl1);
+								map.removeControl(layerControl3);
+							}
+							if (elementInViewport(scene3) && !elementInViewport(scene2)) {
+								map.addControl(layerControl3);
+								map.removeControl(layerControl1);
+								map.removeControl(layerControl2);
+							}
 						});
+
+						//map.on('moveend', function () {});
 
             miniMap = new L.Control.GlobeMiniMap({
                 marker:'#B51E1E',
@@ -195,15 +202,29 @@
         }
     });
 
-		function isInViewport(element) {
-				const rect = element.getBoundingClientRect();
-				return (
-						rect.top >= 0 &&
-						rect.left >= 0 &&
-						rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-						rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-				);
-		};
+		// Need to edit this function to check if the element is visible inside its parent,
+		// or some other way of checking to see if only the desired element is 100% in view
+		function elementInViewport(el) {
+
+			var top = el.offsetTop;
+			var left = el.offsetLeft;
+			var width = el.offsetWidth;
+			var height = el.offsetHeight;
+
+			while(el.offsetParent) {
+				el = el.offsetParent;
+				top += el.offsetTop;
+				left += el.offsetLeft;
+			}
+
+			return (
+				top >= window.pageYOffset &&
+				left >= window.pageXOffset &&
+				(top + height) <= (window.pageYOffset + window.innerHeight) &&
+				(left + width) <= (window.pageXOffset + window.innerWidth)
+			);
+
+		}
 
 </script>
 </body>
