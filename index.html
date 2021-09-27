@@ -185,23 +185,19 @@
 								console.log('Scene 3 is in view.');
 							}
 							if (elementInViewport(homepage)) {
-								console.log('Homepage is in view.');
 								map.removeControl(layerControl1);
 								map.removeControl(layerControl2);
 								map.removeControl(layerControl3);
-							}
-							if (elementInViewport(scene1) && !elementInViewport(homepage) || elementInViewport(scene1) && elementInViewport(scene2)) {
-								map.addControl(layerControl1);
+							} else if (elementInViewport(scene1) && !elementInViewport(homepage) && !elementInViewport(scene2) && !elementInViewport(scene3)) {
+								//map.addControl(layerControl1);
 								map.removeControl(layerControl2);
 								map.removeControl(layerControl3);
-							}
-							if (elementInViewport(scene2) && !elementInViewport(scene1) || elementInViewport(scene2) && elementInViewport(scene3)) {
-								map.addControl(layerControl2);
+							} else if (elementInViewport(scene2) && !elementInViewport(scene1) && !elementInViewport(scene3) && !elementInViewport(homepage)) {
+								//map.addControl(layerControl2);
 								map.removeControl(layerControl1);
 								map.removeControl(layerControl3);
-							}
-							if (elementInViewport(scene3) && !elementInViewport(scene2)) {
-								map.addControl(layerControl3);
+							} else if (elementInViewport(scene3) && !elementInViewport(scene1) && !elementInViewport(scene2) && !elementInViewport(homepage)) {
+								//map.addControl(layerControl3);
 								map.removeControl(layerControl1);
 								map.removeControl(layerControl2);
 							}
