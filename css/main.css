@@ -180,6 +180,19 @@ h5{
     color: rgba(0, 0, 0, 0.95);
 }
 
+h6{
+  font-family: 'Playfair Display', serif;
+  font-size: 12px;
+  color: black;
+  display: inline-block;
+  margin-top: 0.0em;
+  margin-bottom: 0.0em;
+  margin-left: 0.75em;
+  margin-right: 0;
+  font-style: italic;
+  font-weight: 400;
+}
+
 p{
     font-size: 18px;
     display: inline;
@@ -479,4 +492,12 @@ p{
 .redspan span{
     color: #B51E1E;
     font-weight: bold;
+}
+
+/* the layer control */
+.leaflet-control-layers {
+  position: absolute;
+  width: 285px;
+  right: 0px;
+  top: 32px
 }

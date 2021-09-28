@@ -47,10 +47,11 @@
 				<li>
 					<a href="javascript:window.scrollBy(0,$('section[data-scene=homepage]').offset().top-$(window).scrollTop()-40);">Home Page</a>
 				</li>
-				<li>
-					<a href="javascript:window.scrollBy(0,$('section[data-scene=scene1]').offset().top-$(window).scrollTop()-40);">Scene 1</a>
-				</li>
 <!--
+				<li>
+					<a href="javascript:window.scrollBy(0,$('section[data-scene=scene2]').offset().top-$(window).scrollTop()-40);">Scene 2</a>
+				</li>
+-->
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Historical Seafloor Mapping<span class="caret"></span></a>
 					<ul class="dropdown-menu">
@@ -63,7 +64,6 @@
 						<li>
 							<a href="javascript:window.scrollBy(0,$('section[data-scene=scene3]').offset().top-$(window).scrollTop()-40);">Scene 3</a>
 						</li>
--->
 <!--
 						<li>
 							<a href="javascript:window.scrollBy(0,$('section[data-scene=map_hex_case1]').offset().top-$(window).scrollTop()-40);">Content 2</a>
@@ -89,7 +89,7 @@
         <h2>Scene 1</h2>
 				<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h3>
       </section>
-<!--
+
 			<section class="scene2" data-scene="scene2">
 				<h2>Scene 2</h2>
 				<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h3>
@@ -99,7 +99,7 @@
 				<h2>Scene 3</h2>
 				<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h3>
 			</section>
-
+<!--
 			<section class="scene4" data-scene="map_hex_case1">
 				<h2>Scene 4</h2>
       </section>
@@ -121,9 +121,7 @@
 		});
 		var mauryLayer = L.tileLayer('maury-1854-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 5});
 		var andreeLayer = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
-		var andreeLayer2 = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
 		var tharpLayer = L.tileLayer('heezen-tharp-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 7});
-		var tharpLayer2 = L.tileLayer('heezen-tharp-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 7});
     var gmrtLayer = L.tileLayer.wms('https://www.gmrt.org/services/mapserver/wms_merc?', {layers: 'topo'});
 
 /*
@@ -136,18 +134,15 @@
 			'esriTerrain' : [Esri_WorldTerrain],
 			'mauryLayer' : [mauryLayer],
 			'andreeLayer' : [andreeLayer],
-			'andreeLayer2' : [andreeLayer2],
 			'tharpLayer' : [tharpLayer],
-			'tharpLayer2' : [tharpLayer2],
 			'gmrtLayer' : [gmrtLayer]
     };
 
     var scenes = {
 			homepage: {lat: 28.5, lng: -36, zoom: 4, layers: ['esriTerrain'], name: "homepage"},
-			scene1: {lat: 28.5, lng: -36, zoom: 4, /*layers: ['mauryLayer', 'andreeLayer', 'andreeLayer2', 'tharpLayer', 'tharpLayer2', 'gmrtLayer'],*/ name: "scene 1"},
-			//scene1: {lat: 28.5, lng: -36, zoom: 4, layers: ['mauryLayer', 'andreeLayer'], name: "scene 1"},
-      //scene2: {lat: 28.5, lng:-36, zoom: 4, layers: ['andreeLayer', 'tharpLayer'], name: "scene 2"},
-			//scene3: {lat: 28.5, lng:-36, zoom: 4, layers: ['tharpLayer', 'gmrtLayer'], name: "scene 3"}
+			scene1: {lat: 28.5, lng: -36, zoom: 4, layers: ['mauryLayer', 'andreeLayer'], name: "scene 1"},
+      scene2: {lat: 28.5, lng:-36, zoom: 4, layers: ['andreeLayer', 'tharpLayer'], name: "scene 2"},
+			scene3: {lat: 28.5, lng:-36, zoom: 4, layers: ['tharpLayer', 'gmrtLayer'], name: "scene 3"}
     };
 
     $('.main').storymap({
@@ -165,42 +160,51 @@
 							collapsed: false,
 						});
 */
-						//const layerControl1 = L.control.sideBySide(mauryLayer, andreeLayer).setLeftLayers(mauryLayer);
-						//const layerControl2 = L.control.sideBySide(andreeLayer, tharpLayer).setLeftLayers(andreeLayer);
-						//const layerControl3 = L.control.sideBySide(tharpLayer, gmrtLayer).setLeftLayers(tharpLayer);
+						const layerControl1 = L.control.sideBySide(mauryLayer, andreeLayer).setLeftLayers(mauryLayer);
+						const layerControl2 = L.control.sideBySide(andreeLayer, tharpLayer).setLeftLayers(andreeLayer);
+						const layerControl3 = L.control.sideBySide(tharpLayer, gmrtLayer).setLeftLayers(tharpLayer);
 
 						const homepage = document.querySelector('.homepage');
 						const scene1 = document.querySelector('.scene1');
-						//const scene2 = document.querySelector('.scene2');
-						//const scene3 = document.querySelector('.scene3');
-
-						const mapLayer1 = L.layerGroup([mauryLayer, andreeLayer]).addTo(map);
-						const mapLayer2 = L.layerGroup([andreeLayer2, tharpLayer]);
-						const mapLayer3 = L.layerGroup([tharpLayer2, gmrtLayer]);
-
-						const mapLayers = {
-						"<h6>Maury, 1854 vs. Andree, 1900</h6>" : mapLayer1,
-						"<h6>Andree, 1900 vs. Heezen-Tharp, 1977</h6>" : mapLayer2,
-						"<h6>Heezen-Tharp, 1977 vs. Contemporary GMRT</h6>" : mapLayer3
-						};
-
-						const controlCase1 = L.control.layers(mapLayers,null,{collapsed:false, position: 'topright'});
-
-						const layerControl1 = L.control.sideBySide([mauryLayer, andreeLayer2, tharpLayer2],[andreeLayer, tharpLayer, gmrtLayer]);
+						const scene2 = document.querySelector('.scene2');
+						const scene3 = document.querySelector('.scene3');
 
 						document.addEventListener('scroll', function () {
 						//map.on('moveend', function () {
-
+							console.log('You are scrolling!');
 							if (elementInViewport(homepage)) {
-								map.removeControl(controlCase1);
+								console.log('Homepage is in view.');
+							}
+							if (elementInViewport(scene1)) {
+								console.log('Scene 1 is in view.');
+							}
+							if (elementInViewport(scene2)) {
+								console.log('Scene 2 is in view.');
+							}
+							if (elementInViewport(scene3)) {
+								console.log('Scene 3 is in view.');
+							}
+							if (elementInViewport(homepage)) {
+								console.log('Homepage is in view.');
 								map.removeControl(layerControl1);
+								map.removeControl(layerControl2);
+								map.removeControl(layerControl3);
 							}
-							//if (elementInViewport(scene1) && !elementInViewport(homepage) || elementInViewport(scene1) && elementInViewport(scene2)) {
-							if (elementInViewport(scene1) && !elementInViewport(homepage)) {
-								map.addControl(controlCase1);
+							if (elementInViewport(scene1) && !elementInViewport(homepage) || elementInViewport(scene1) && elementInViewport(scene2)) {
 								map.addControl(layerControl1);
+								map.removeControl(layerControl2);
+								map.removeControl(layerControl3);
 							}
-
+							if (elementInViewport(scene2) && !elementInViewport(scene1) || elementInViewport(scene2) && elementInViewport(scene3)) {
+								map.addControl(layerControl2);
+								map.removeControl(layerControl1);
+								map.removeControl(layerControl3);
+							}
+							if (elementInViewport(scene3) && !elementInViewport(scene2)) {
+								map.addControl(layerControl3);
+								map.removeControl(layerControl1);
+								map.removeControl(layerControl2);
+							}
 						});
 
 						//map.on('moveend', function () {});
