@@ -125,6 +125,8 @@
 		var andreeLayer2 = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
 		var tharpLayer = L.tileLayer('heezen-tharp-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 7});
 		var tharpLayer2 = L.tileLayer('heezen-tharp-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 7});
+		var haxbyLayer = L.tileLayer('haxby-1983-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 4});
+		var haxbyLayer2 = L.tileLayer('haxby-1983-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 4});
     var gmrtLayer = L.tileLayer.wms('https://www.gmrt.org/services/mapserver/wms_merc?', {layers: 'topo'});
 
 /*
@@ -140,6 +142,8 @@
 			'andreeLayer2' : [andreeLayer2],
 			'tharpLayer' : [tharpLayer],
 			'tharpLayer2' : [tharpLayer2],
+			'haxbyLayer' : [haxbyLayer],
+			'haxbyLayer2' : [haxbyLayer2],
 			'gmrtLayer' : [gmrtLayer]
     };
 
@@ -177,17 +181,19 @@
 
 						const mapLayer1 = L.layerGroup([mauryLayer, andreeLayer]).addTo(map);
 						const mapLayer2 = L.layerGroup([andreeLayer2, tharpLayer]);
-						const mapLayer3 = L.layerGroup([tharpLayer2, gmrtLayer]);
+						const mapLayer3 = L.layerGroup([tharpLayer2, haxbyLayer]);
+						const mapLayer4 = L.layerGroup([haxbyLayer2, gmrtLayer]);
 
 						const mapLayers = {
-						"<h6>Maury, 1854 vs. Andree, 1900</h6>" : mapLayer1,
-						"<h6>Andree, 1900 vs. Heezen-Tharp, 1977</h6>" : mapLayer2,
-						"<h6>Heezen-Tharp, 1977 vs. Contemporary GMRT</h6>" : mapLayer3
+							"<h6>Maury, 1854 vs. Andree, 1900</h6>" : mapLayer1,
+							"<h6>Andree, 1900 vs. Heezen-Tharp, 1977</h6>" : mapLayer2,
+							"<h6>Heezen-Tharp, 1977 vs. Haxby, 1983</h6>" : mapLayer3,
+							"<h6>Haxby, 1983 vs. Contemporary GMRT</h6>" : mapLayer4
 						};
 
 						const controlCase1 = L.control.layers(mapLayers,null,{collapsed:false, position: 'topright'});
 
-						const layerControl1 = L.control.sideBySide([mauryLayer, andreeLayer2, tharpLayer2],[andreeLayer, tharpLayer, gmrtLayer]);
+						const layerControl1 = L.control.sideBySide([mauryLayer, andreeLayer2, tharpLayer2, haxbyLayer2],[andreeLayer, tharpLayer, haxbyLayer, gmrtLayer]);
 
 						document.addEventListener('scroll', function () {
 						//map.on('moveend', function () {
