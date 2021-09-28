@@ -115,7 +115,7 @@
 
 <script type="text/javascript">
 
-		var Esri_WorldTerrain = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		var esriTerrain = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 			attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
 			maxZoom: 13
 		});
@@ -133,7 +133,7 @@
     };
 */
     var layers = {
-			'esriTerrain' : [Esri_WorldTerrain],
+			'esriTerrain' : [esriTerrain],
 			'mauryLayer' : [mauryLayer],
 			'andreeLayer' : [andreeLayer],
 			'andreeLayer2' : [andreeLayer2],
@@ -194,6 +194,7 @@
 							if (elementInViewport(homepage)) {
 								map.removeControl(controlCase1);
 								map.removeControl(layerControl1);
+								esriTerrain.bringToFront();
 							}
 							//if (elementInViewport(scene1) && !elementInViewport(homepage) || elementInViewport(scene1) && elementInViewport(scene2)) {
 							if (elementInViewport(scene1) && !elementInViewport(homepage)) {
