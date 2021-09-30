@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
 	<link rel="stylesheet" type="text/css" href="css/storymap.css">
 	<link rel="stylesheet" href="css/main.css" />
+	<link rel="stylesheet" href="css/L.Control.Layers.Tree.css" crossorigin=""/>
 
 	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
 	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Courgette|Inconsolata|Titillium+Web|Fira+Sans+Condensed" />
@@ -30,6 +31,7 @@
 	<script src="js/storymap.js"></script>
 
 	<script src="js/jqcloud.js"></script>
+	<script src="js/L.Control.Layers.Tree.js"></script>
 </head>
 <body>
 
@@ -120,14 +122,23 @@
 			attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
 			maxZoom: 13
 		});
-		var mauryLayer = L.tileLayer('maury-1854-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 5});
-		var andreeLayer = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
+		var mauryLayer1 = L.tileLayer('maury-1854-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 5});
+		var mauryLayer2 = L.tileLayer('maury-1854-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 5});
+		var mauryLayer3 = L.tileLayer('maury-1854-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 5});
+		var mauryLayer4 = L.tileLayer('maury-1854-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 5});
+		var andreeLayer1 = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
 		var andreeLayer2 = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
+		var andreeLayer3 = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
+		var andreeLayer4 = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
+
+		//var andreeLayer = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
+		//var andreeLayer2 = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
 		var tharpLayer = L.tileLayer('heezen-tharp-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 7});
 		var tharpLayer2 = L.tileLayer('heezen-tharp-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 7});
 		var haxbyLayer = L.tileLayer('haxby-1983-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 4});
 		var haxbyLayer2 = L.tileLayer('haxby-1983-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 4});
     var gmrtLayer = L.tileLayer.wms('https://www.gmrt.org/services/mapserver/wms_merc?', {layers: 'topo'});
+		var gmrtLayer2 = L.tileLayer.wms('https://www.gmrt.org/services/mapserver/wms_merc?', {layers: 'topo'});
 
 /*
 		var baseMaps = {
@@ -137,14 +148,23 @@
 */
     var layers = {
 			'esriTerrain' : [esriTerrain],
-			'mauryLayer' : [mauryLayer],
-			'andreeLayer' : [andreeLayer],
+			'mauryLayer1' : [mauryLayer1],
+			'mauryLayer2' : [mauryLayer2],
+			'mauryLayer3' : [mauryLayer3],
+			'mauryLayer4' : [mauryLayer4],
+			'andreeLayer1' : [andreeLayer1],
 			'andreeLayer2' : [andreeLayer2],
+			'andreeLayer3' : [andreeLayer3],
+			'andreeLayer4' : [andreeLayer4],
+
+			//'andreeLayer' : [andreeLayer],
+			//'andreeLayer2' : [andreeLayer2],
 			'tharpLayer' : [tharpLayer],
 			'tharpLayer2' : [tharpLayer2],
 			'haxbyLayer' : [haxbyLayer],
 			'haxbyLayer2' : [haxbyLayer2],
-			'gmrtLayer' : [gmrtLayer]
+			'gmrtLayer' : [gmrtLayer],
+			'gmrtLayer2' : [gmrtLayer2]
     };
 
     var scenes = {
@@ -165,46 +185,76 @@
             // create a map in the "map" div, set the view to a given place and zoom
             var map = L.map('map', {zoomControl: false, dragging: true, scrollWheelZoom: true, maxZoom: 14}).setView([44.1347254, -122.7411479], 7);
             map.doubleClickZoom.disable();
-/*
-						const layerControl = L.control.layers(baseMaps, null, {
-							collapsed: false,
-						});
-*/
-						//const layerControl1 = L.control.sideBySide(mauryLayer, andreeLayer).setLeftLayers(mauryLayer);
-						//const layerControl2 = L.control.sideBySide(andreeLayer, tharpLayer).setLeftLayers(andreeLayer);
-						//const layerControl3 = L.control.sideBySide(tharpLayer, gmrtLayer).setLeftLayers(tharpLayer);
 
 						const homepage = document.querySelector('.homepage');
 						const scene1 = document.querySelector('.scene1');
 						//const scene2 = document.querySelector('.scene2');
 						//const scene3 = document.querySelector('.scene3');
 
-						const mapLayer1 = L.layerGroup([mauryLayer, andreeLayer]).addTo(map);
-						const mapLayer2 = L.layerGroup([andreeLayer2, tharpLayer]);
-						const mapLayer3 = L.layerGroup([tharpLayer2, haxbyLayer]);
-						const mapLayer4 = L.layerGroup([haxbyLayer2, gmrtLayer]);
+						const mLayer1 = L.layerGroup([mauryLayer1, andreeLayer1]).addTo(map);
+						const mLayer2 = L.layerGroup([mauryLayer2, tharpLayer]);
+						const mLayer3 = L.layerGroup([mauryLayer3, haxbyLayer]);
+						const mLayer4 = L.layerGroup([mauryLayer4, gmrtLayer]);
 
-						const mapLayers = {
-							"<h6>Maury, 1854 vs. Andree, 1900</h6>" : mapLayer1,
-							"<h6>Andree, 1900 vs. Heezen-Tharp, 1977</h6>" : mapLayer2,
-							"<h6>Heezen-Tharp, 1977 vs. Haxby, 1983</h6>" : mapLayer3,
-							"<h6>Haxby, 1983 vs. Contemporary GMRT</h6>" : mapLayer4
+						const aLayer1 = L.layerGroup([andreeLayer2, tharpLayer2]);
+						const aLayer2 = L.layerGroup([andreeLayer3, haxbyLayer2]);
+						const aLayer3 = L.layerGroup([andreeLayer4, gmrtLayer2]);
+
+						const baseTree = {
+							label: '<h6>Historic Seafloor Maps</h6>',
+					    children: [
+					        {
+					            label: '<h6>1854 - Matthew Fontaine Maury</h6>',
+											collapsed: true,
+					            children: [
+					                { label: '<h6>Maury, 1854 vs. Andree, 1900</h6>', layer: mLayer1 },
+					                { label: '<h6>Maury, 1854 vs. Heezen-Tharp, 1977</h6>', layer: mLayer2 },
+					                { label: '<h6>Maury, 1854 vs. Haxby, 1983</h6>', layer: mLayer3 },
+													{ label: '<h6>Maury, 1854 vs. Contemporary GMRT</h6>', layer: mLayer4 },
+					            ]
+					        },
+					        {
+					            label: '<h6>1900 - Richard Andree</h6>',
+											collapsed: true,
+					            children: [
+					                { label: '<h6>Andree, 1900 vs. Heezen-Tharp, 1977</h6>', layer: aLayer1 },
+					                { label: '<h6>Andree, 1900 vs. Haxby, 1983</h6>', layer: aLayer2 },
+					                { label: '<h6>Andree, 1900 vs. Contemporary GMRT</h6>', layer: aLayer3 },
+					            ]
+					        }
+					    ]
 						};
 
-						const controlCase1 = L.control.layers(mapLayers,null,{collapsed:false, position: 'topright'});
+						const controlCase1 = L.control.layers.tree(baseTree, null, {
+							position: 'topright',
+							collapsed: false,
+							namedToggle: true,
+							//groupsCollapsable: true,
+  						//groupsExpandedClass: "glyphicon glyphicon-chevron-down",
+  						//groupsCollapsedClass: "glyphicon glyphicon-chevron-right",
+							//exclusiveGroups: ["<h6>1854 - Matthew Fontaine Maury</h6>","<h6>1900 - Richard Andree</h6>"]
+						}).addTo(map);
 
-						const layerControl1 = L.control.sideBySide([mauryLayer, andreeLayer2, tharpLayer2, haxbyLayer2],[andreeLayer, tharpLayer, haxbyLayer, gmrtLayer]);
+						controlCase1.collapseTree(baseTree);
 
-						//console.log($(".scene1"));
+						const layerControl1 = L.control.sideBySide([mauryLayer1, mauryLayer2, mauryLayer3, mauryLayer4, andreeLayer1, andreeLayer2, andreeLayer3],[andreeLayer1, tharpLayer, haxbyLayer, gmrtLayer, tharpLayer2, haxbyLayer2, gmrtLayer2]);
 
-						document.addEventListener('scroll', function () {
-						//map.on('moveend', function () {
+						//document.addEventListener('scroll', function () {
+						map.on('moveend', function () {
 
 							if ($(".homepage").hasClass("viewing")) {
+								map.removeLayer(mLayer1);
 								map.removeControl(controlCase1);
 								map.removeControl(layerControl1);
 								esriTerrain.bringToFront();
 							} else if ($(".scene1").hasClass("viewing")) {
+								map.addLayer(mLayer1);
+								map.removeLayer(mLayer2);
+								map.removeLayer(mLayer3);
+								map.removeLayer(mLayer4);
+								map.removeLayer(aLayer1);
+								map.removeLayer(aLayer2);
+								map.removeLayer(aLayer3);
 								map.addControl(controlCase1);
 								map.addControl(layerControl1);
 							} else {
