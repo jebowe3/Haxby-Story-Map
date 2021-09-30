@@ -48,7 +48,7 @@
 					<a href="javascript:window.scrollBy(0,$('section[data-scene=homepage]').offset().top-$(window).scrollTop()-40);">Home Page</a>
 				</li>
 				<li>
-					<a href="javascript:window.scrollBy(0,$('section[data-scene=scene1]').offset().top-$(window).scrollTop()-40);">Scene 1</a>
+					<a href="javascript:window.scrollBy(0,$('section[data-scene=scene1]').offset().top-$(window).scrollTop()-40);">Mapping the Seafloor Through History</a>
 				</li>
 <!--
 				<li class="dropdown">
@@ -195,9 +195,22 @@
 
 						const layerControl1 = L.control.sideBySide([mauryLayer, andreeLayer2, tharpLayer2, haxbyLayer2],[andreeLayer, tharpLayer, haxbyLayer, gmrtLayer]);
 
+						//console.log($(".scene1"));
+
 						document.addEventListener('scroll', function () {
 						//map.on('moveend', function () {
 
+							if ($(".homepage").hasClass("viewing")) {
+								map.removeControl(controlCase1);
+								map.removeControl(layerControl1);
+								esriTerrain.bringToFront();
+							} else if ($(".scene1").hasClass("viewing")) {
+								map.addControl(controlCase1);
+								map.addControl(layerControl1);
+							} else {
+								console.log("scenes not visible");
+							}
+/*
 							if (elementInViewport(homepage)) {
 								map.removeControl(controlCase1);
 								map.removeControl(layerControl1);
@@ -208,7 +221,7 @@
 								map.addControl(controlCase1);
 								map.addControl(layerControl1);
 							}
-
+*/
 						});
 
 						//map.on('moveend', function () {});
@@ -223,7 +236,7 @@
 
         }
     });
-
+/*
 		// Need to edit this function to check if the element is visible inside its parent,
 		// or some other way of checking to see if only the desired element is 100% in view
 		function elementInViewport(el) {
@@ -247,7 +260,7 @@
 			);
 
 		}
-
+*/
 </script>
 </body>
 </html>
