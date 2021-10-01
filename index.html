@@ -32,6 +32,9 @@
 
 	<script src="js/jqcloud.js"></script>
 	<script src="js/L.Control.Layers.Tree.js"></script>
+
+	<script src="js/attrchange.js"></script>
+  <script src="js/attrchange_ext.js"></script>
 </head>
 <body>
 
@@ -118,58 +121,82 @@
 
 <script type="text/javascript">
 
-		var esriTerrain = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+		const esriTerrain = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 			attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
 			maxZoom: 13
 		});
-		var mauryLayer1 = L.tileLayer('maury-1854-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 5});
-		var mauryLayer2 = L.tileLayer('maury-1854-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 5});
-		var mauryLayer3 = L.tileLayer('maury-1854-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 5});
-		var mauryLayer4 = L.tileLayer('maury-1854-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 5});
-		var andreeLayer1 = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
-		var andreeLayer2 = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
-		var andreeLayer3 = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
-		var andreeLayer4 = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
+		const mauryLayer1 = L.tileLayer('maury-1854-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 5});
+		const mauryLayer2 = L.tileLayer('maury-1854-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 5});
+		const mauryLayer3 = L.tileLayer('maury-1854-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 5});
+		const mauryLayer4 = L.tileLayer('maury-1854-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 5});
+		const andreeLayer1 = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
+		const andreeLayer2 = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
+		const andreeLayer3 = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
+		const andreeLayer4 = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
 
-		//var andreeLayer = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
-		//var andreeLayer2 = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
-		var tharpLayer = L.tileLayer('heezen-tharp-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 7});
-		var tharpLayer2 = L.tileLayer('heezen-tharp-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 7});
-		var haxbyLayer = L.tileLayer('haxby-1983-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 4});
-		var haxbyLayer2 = L.tileLayer('haxby-1983-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 4});
-    var gmrtLayer = L.tileLayer.wms('https://www.gmrt.org/services/mapserver/wms_merc?', {layers: 'topo'});
-		var gmrtLayer2 = L.tileLayer.wms('https://www.gmrt.org/services/mapserver/wms_merc?', {layers: 'topo'});
+		//const andreeLayer = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
+		//const andreeLayer2 = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
+		const tharpLayer = L.tileLayer('heezen-tharp-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 7});
+		const tharpLayer2 = L.tileLayer('heezen-tharp-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 7});
+		const haxbyLayer = L.tileLayer('haxby-1983-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 4});
+		const haxbyLayer2 = L.tileLayer('haxby-1983-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 4});
+    const gmrtLayer = L.tileLayer.wms('https://www.gmrt.org/services/mapserver/wms_merc?', {layers: 'topo'});
+		const gmrtLayer2 = L.tileLayer.wms('https://www.gmrt.org/services/mapserver/wms_merc?', {layers: 'topo'});
+
+		const mLayer1 = L.layerGroup([mauryLayer1, andreeLayer1]);
+		const mLayer2 = L.layerGroup([mauryLayer2, tharpLayer]);
+		const mLayer3 = L.layerGroup([mauryLayer3, haxbyLayer]);
+		const mLayer4 = L.layerGroup([mauryLayer4, gmrtLayer]);
+
+		const aLayer1 = L.layerGroup([andreeLayer2, tharpLayer2]);
+		const aLayer2 = L.layerGroup([andreeLayer3, haxbyLayer2]);
+		const aLayer3 = L.layerGroup([andreeLayer4, gmrtLayer2]);
 
 /*
-		var baseMaps = {
+		const baseMaps = {
       "Heezen-Tharp, 1977": tharpLayer,
       "Contemporary GMRT": gmrtLayer
     };
 */
-    var layers = {
+    const layers = {
 			'esriTerrain' : [esriTerrain],
-			'mauryLayer1' : [mauryLayer1],
-			'mauryLayer2' : [mauryLayer2],
-			'mauryLayer3' : [mauryLayer3],
-			'mauryLayer4' : [mauryLayer4],
-			'andreeLayer1' : [andreeLayer1],
-			'andreeLayer2' : [andreeLayer2],
-			'andreeLayer3' : [andreeLayer3],
-			'andreeLayer4' : [andreeLayer4],
-
-			//'andreeLayer' : [andreeLayer],
-			//'andreeLayer2' : [andreeLayer2],
-			'tharpLayer' : [tharpLayer],
-			'tharpLayer2' : [tharpLayer2],
-			'haxbyLayer' : [haxbyLayer],
-			'haxbyLayer2' : [haxbyLayer2],
-			'gmrtLayer' : [gmrtLayer],
-			'gmrtLayer2' : [gmrtLayer2]
+			'mLayer1' : [mLayer1],
+			'mLayer2' : [mLayer2],
+			'mLayer3' : [mLayer3],
+			'mLayer4' : [mLayer4],
+			'aLayer1' : [aLayer1],
+			'aLayer2' : [aLayer2],
+			'aLayer3' : [aLayer3],
     };
 
-    var scenes = {
+		const baseTree = {
+			label: '<h6>Historic Seafloor Maps</h6>',
+			children: [
+					{
+							label: '<h6>1854 - Matthew Fontaine Maury</h6>',
+							collapsed: true,
+							children: [
+									{ label: '<h6>Maury, 1854 vs. Andree, 1900</h6>', layer: mLayer1 },
+									{ label: '<h6>Maury, 1854 vs. Heezen-Tharp, 1977</h6>', layer: mLayer2 },
+									{ label: '<h6>Maury, 1854 vs. Haxby, 1983</h6>', layer: mLayer3 },
+									{ label: '<h6>Maury, 1854 vs. Contemporary GMRT</h6>', layer: mLayer4 },
+							]
+					},
+					{
+							label: '<h6>1900 - Richard Andree</h6>',
+							collapsed: true,
+							children: [
+									{ label: '<h6>Andree, 1900 vs. Heezen-Tharp, 1977</h6>', layer: aLayer1 },
+									{ label: '<h6>Andree, 1900 vs. Haxby, 1983</h6>', layer: aLayer2 },
+									{ label: '<h6>Andree, 1900 vs. Contemporary GMRT</h6>', layer: aLayer3 },
+							]
+					}
+			]
+		};
+
+    const scenes = {
 			homepage: {lat: 28.5, lng: -36, zoom: 4, layers: ['esriTerrain'], name: "homepage"},
-			scene1: {lat: 28.5, lng: -36, zoom: 4, /*layers: ['mauryLayer', 'andreeLayer', 'andreeLayer2', 'tharpLayer', 'tharpLayer2', 'gmrtLayer'],*/ name: "scene 1"},
+			scene1: {lat: 28.5, lng: -36, zoom: 4, layers: ['mLayer1', 'mLayer2', 'mLayer3', 'mLayer4', 'aLayer1', 'aLayer2', 'aLayer3'], name: "scene 1"},
 			//scene1: {lat: 28.5, lng: -36, zoom: 4, layers: ['mauryLayer', 'andreeLayer'], name: "scene 1"},
       //scene2: {lat: 28.5, lng:-36, zoom: 4, layers: ['andreeLayer', 'tharpLayer'], name: "scene 2"},
 			//scene3: {lat: 28.5, lng:-36, zoom: 4, layers: ['tharpLayer', 'gmrtLayer'], name: "scene 3"}
@@ -183,98 +210,53 @@
         navwidget: true,
         createMap: function () {
             // create a map in the "map" div, set the view to a given place and zoom
-            var map = L.map('map', {zoomControl: false, dragging: true, scrollWheelZoom: true, maxZoom: 14}).setView([44.1347254, -122.7411479], 7);
+            const map = L.map('map', {zoomControl: false, dragging: true, scrollWheelZoom: true, maxZoom: 14}).setView([44.1347254, -122.7411479], 7);
             map.doubleClickZoom.disable();
-
-						const homepage = document.querySelector('.homepage');
-						const scene1 = document.querySelector('.scene1');
-						//const scene2 = document.querySelector('.scene2');
-						//const scene3 = document.querySelector('.scene3');
-
-						const mLayer1 = L.layerGroup([mauryLayer1, andreeLayer1]).addTo(map);
-						const mLayer2 = L.layerGroup([mauryLayer2, tharpLayer]);
-						const mLayer3 = L.layerGroup([mauryLayer3, haxbyLayer]);
-						const mLayer4 = L.layerGroup([mauryLayer4, gmrtLayer]);
-
-						const aLayer1 = L.layerGroup([andreeLayer2, tharpLayer2]);
-						const aLayer2 = L.layerGroup([andreeLayer3, haxbyLayer2]);
-						const aLayer3 = L.layerGroup([andreeLayer4, gmrtLayer2]);
-
-						const baseTree = {
-							label: '<h6>Historic Seafloor Maps</h6>',
-					    children: [
-					        {
-					            label: '<h6>1854 - Matthew Fontaine Maury</h6>',
-											collapsed: true,
-					            children: [
-					                { label: '<h6>Maury, 1854 vs. Andree, 1900</h6>', layer: mLayer1 },
-					                { label: '<h6>Maury, 1854 vs. Heezen-Tharp, 1977</h6>', layer: mLayer2 },
-					                { label: '<h6>Maury, 1854 vs. Haxby, 1983</h6>', layer: mLayer3 },
-													{ label: '<h6>Maury, 1854 vs. Contemporary GMRT</h6>', layer: mLayer4 },
-					            ]
-					        },
-					        {
-					            label: '<h6>1900 - Richard Andree</h6>',
-											collapsed: true,
-					            children: [
-					                { label: '<h6>Andree, 1900 vs. Heezen-Tharp, 1977</h6>', layer: aLayer1 },
-					                { label: '<h6>Andree, 1900 vs. Haxby, 1983</h6>', layer: aLayer2 },
-					                { label: '<h6>Andree, 1900 vs. Contemporary GMRT</h6>', layer: aLayer3 },
-					            ]
-					        }
-					    ]
-						};
 
 						const controlCase1 = L.control.layers.tree(baseTree, null, {
 							position: 'topright',
 							collapsed: false,
-							namedToggle: true,
+							//namedToggle: true,
 							//groupsCollapsable: true,
   						//groupsExpandedClass: "glyphicon glyphicon-chevron-down",
   						//groupsCollapsedClass: "glyphicon glyphicon-chevron-right",
 							//exclusiveGroups: ["<h6>1854 - Matthew Fontaine Maury</h6>","<h6>1900 - Richard Andree</h6>"]
-						}).addTo(map);
+						});
 
 						controlCase1.collapseTree(baseTree);
 
-						const layerControl1 = L.control.sideBySide([mauryLayer1, mauryLayer2, mauryLayer3, mauryLayer4, andreeLayer1, andreeLayer2, andreeLayer3],[andreeLayer1, tharpLayer, haxbyLayer, gmrtLayer, tharpLayer2, haxbyLayer2, gmrtLayer2]);
+						const layerControl1 = L.control.sideBySide([mauryLayer2, mauryLayer3, mauryLayer4, andreeLayer1, andreeLayer2, andreeLayer3, mauryLayer1],[tharpLayer, haxbyLayer, gmrtLayer, tharpLayer2, haxbyLayer2, gmrtLayer2, andreeLayer1]);
 
-						//document.addEventListener('scroll', function () {
-						map.on('moveend', function () {
+						// Add a function to check when scenes become visible (when they add a 'viewing' class)
+						$(function () {
 
-							if ($(".homepage").hasClass("viewing")) {
-								map.removeLayer(mLayer1);
-								map.removeControl(controlCase1);
-								map.removeControl(layerControl1);
-								esriTerrain.bringToFront();
-							} else if ($(".scene1").hasClass("viewing")) {
-								map.addLayer(mLayer1);
-								map.removeLayer(mLayer2);
-								map.removeLayer(mLayer3);
-								map.removeLayer(mLayer4);
-								map.removeLayer(aLayer1);
-								map.removeLayer(aLayer2);
-								map.removeLayer(aLayer3);
-								map.addControl(controlCase1);
-								map.addControl(layerControl1);
-							} else {
-								console.log("scenes not visible");
-							}
-/*
-							if (elementInViewport(homepage)) {
-								map.removeControl(controlCase1);
-								map.removeControl(layerControl1);
-								esriTerrain.bringToFront();
-							}
-							//if (elementInViewport(scene1) && !elementInViewport(homepage) || elementInViewport(scene1) && elementInViewport(scene2)) {
-							if (elementInViewport(scene1) && !elementInViewport(homepage)) {
-								map.addControl(controlCase1);
-								map.addControl(layerControl1);
-							}
-*/
+							$('.homepage').attrchange({
+								trackValues: true,
+								callback: function (event) {
+									//var properties = $(this).attrchange('getProperties');
+									// when the homepage becomes visible...
+									if ($(".homepage").hasClass("viewing")) {
+										map.removeControl(controlCase1);
+										map.removeControl(layerControl1);
+										esriTerrain.bringToFront();
+										// when scene1 becomes visible...
+									} else if ($(".scene1").hasClass("viewing")) {
+										map.addLayer(mLayer1);
+										map.removeLayer(mLayer2);
+										map.removeLayer(mLayer3);
+										map.removeLayer(mLayer4);
+										map.removeLayer(aLayer1);
+										map.removeLayer(aLayer2);
+										map.removeLayer(aLayer3);
+										map.addControl(controlCase1);
+										map.addControl(layerControl1);
+									} else {
+										console.log("scenes not visible");
+									}
+								}
+							});
+
 						});
-
-						//map.on('moveend', function () {});
 
             miniMap = new L.Control.GlobeMiniMap({
                 marker:'#B51E1E',
