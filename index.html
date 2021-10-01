@@ -247,7 +247,7 @@
   						//groupsExpandedClass: "glyphicon glyphicon-chevron-down",
   						//groupsCollapsedClass: "glyphicon glyphicon-chevron-right",
 							//exclusiveGroups: ["<h6>1854 - Matthew Fontaine Maury</h6>","<h6>1900 - Richard Andree</h6>"]
-						});
+						}).addTo(map);
 
 						controlCase1.collapseTree(baseTree);
 
@@ -255,6 +255,15 @@
 
 						// Add a function to check when scenes become visible (when they add a 'viewing' class)
 						$(function () {
+
+							map.removeControl(controlCase1);
+
+							map.on('moveend', function() {
+								if ($(".homepage").hasClass("viewing")) {
+									map.removeControl(controlCase1);
+									map.removeControl(layerControl1);
+								}
+							});
 
 							$('.homepage').attrchange({
 								trackValues: true,
