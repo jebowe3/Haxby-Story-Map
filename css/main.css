@@ -497,7 +497,7 @@ p{
 /* the layer control */
 .leaflet-control-layers {
   position: absolute;
-  width: 285px;
+  width: 300px;
   right: 0px;
   top: 32px
 }

@@ -144,6 +144,7 @@
     const gmrtLayer1 = L.tileLayer.wms('https://www.gmrt.org/services/mapserver/wms_merc?', {layers: 'topo'});
 		const gmrtLayer2 = L.tileLayer.wms('https://www.gmrt.org/services/mapserver/wms_merc?', {layers: 'topo'});
 		const gmrtLayer3 = L.tileLayer.wms('https://www.gmrt.org/services/mapserver/wms_merc?', {layers: 'topo'});
+		const gmrtLayer4 = L.tileLayer.wms('https://www.gmrt.org/services/mapserver/wms_merc?', {layers: 'topo'});
 
 		const mLayer1 = L.layerGroup([mauryLayer1, andreeLayer1]);
 		const mLayer2 = L.layerGroup([mauryLayer2, tharpLayer1]);
@@ -156,6 +157,8 @@
 
 		const tLayer1 = L.layerGroup([tharpLayer3, haxbyLayer3]);
 		const tLayer2 = L.layerGroup([tharpLayer4, gmrtLayer3]);
+
+		const hLayer1 = L.layerGroup([haxbyLayer4, gmrtLayer4]);
 
 /*
 		const baseMaps = {
@@ -173,7 +176,8 @@
 			'aLayer2' : [aLayer2],
 			'aLayer3' : [aLayer3],
 			'tLayer1' : [tLayer1],
-			'tLayer2' : [tLayer2]
+			'tLayer2' : [tLayer2],
+			'hLayer1' : [hLayer1]
     };
 
 		const baseTree = {
@@ -203,7 +207,14 @@
 							collapsed: true,
 							children: [
 									{ label: '<h6>Heezen-Tharp, 1977 vs. Haxby, 1983</h6>', layer: tLayer1 },
-									{ label: '<h6>Haxby, 1983 vs. Contemporary GMRT</h6>', layer: tLayer2 },
+									{ label: '<h6>Heezen-Tharp, 1977 vs. Contemporary GMRT</h6>', layer: tLayer2 },
+							]
+					},
+					{
+							label: '<h6>1983 - Haxby</h6>',
+							collapsed: true,
+							children: [
+									{ label: '<h6>Haxby, 1983 vs. Contemporary GMRT</h6>', layer: hLayer1 },
 							]
 					}
 			]
@@ -211,7 +222,7 @@
 
     const scenes = {
 			homepage: {lat: 28.5, lng: -36, zoom: 4, layers: ['esriTerrain'], name: "homepage"},
-			scene1: {lat: 28.5, lng: -36, zoom: 4, layers: ['mLayer1', 'mLayer2', 'mLayer3', 'mLayer4', 'aLayer1', 'aLayer2', 'aLayer3', 'tLayer1', 'tLayer2'], name: "scene 1"},
+			scene1: {lat: 28.5, lng: -36, zoom: 4, layers: ['mLayer1', 'mLayer2', 'mLayer3', 'mLayer4', 'aLayer1', 'aLayer2', 'aLayer3', 'tLayer1', 'tLayer2', 'hLayer1'], name: "scene 1"},
 			//scene1: {lat: 28.5, lng: -36, zoom: 4, layers: ['mauryLayer', 'andreeLayer'], name: "scene 1"},
       //scene2: {lat: 28.5, lng:-36, zoom: 4, layers: ['andreeLayer', 'tharpLayer'], name: "scene 2"},
 			//scene3: {lat: 28.5, lng:-36, zoom: 4, layers: ['tharpLayer', 'gmrtLayer'], name: "scene 3"}
@@ -240,7 +251,7 @@
 
 						controlCase1.collapseTree(baseTree);
 
-						const layerControl1 = L.control.sideBySide([mauryLayer2, mauryLayer3, mauryLayer4, andreeLayer1, andreeLayer2, andreeLayer3, mauryLayer1, tharpLayer3, tharpLayer4],[tharpLayer1, haxbyLayer1, gmrtLayer1, tharpLayer2, haxbyLayer2, gmrtLayer2, andreeLayer1, haxbyLayer3, gmrtLayer3]);
+						const layerControl1 = L.control.sideBySide([mauryLayer2, mauryLayer3, mauryLayer4, andreeLayer1, andreeLayer2, andreeLayer3, mauryLayer1, tharpLayer3, tharpLayer4, haxbyLayer4],[tharpLayer1, haxbyLayer1, gmrtLayer1, tharpLayer2, haxbyLayer2, gmrtLayer2, andreeLayer1, haxbyLayer3, gmrtLayer3, gmrtLayer4]);
 
 						// Add a function to check when scenes become visible (when they add a 'viewing' class)
 						$(function () {
@@ -260,6 +271,7 @@
 										map.removeLayer(aLayer3);
 										map.removeLayer(tLayer1);
 										map.removeLayer(tLayer2);
+										map.removeLayer(hLayer1);
 										map.removeControl(controlCase1);
 										map.removeControl(layerControl1);
 										esriTerrain.bringToFront();
@@ -274,6 +286,7 @@
 										map.removeLayer(aLayer3);
 										map.removeLayer(tLayer1);
 										map.removeLayer(tLayer2);
+										map.removeLayer(hLayer1);
 										map.addControl(controlCase1);
 										map.addControl(layerControl1);
 									} else {
