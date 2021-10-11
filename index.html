@@ -129,27 +129,43 @@
 		const mauryLayer2 = L.tileLayer('maury-1854-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 5});
 		const mauryLayer3 = L.tileLayer('maury-1854-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 5});
 		const mauryLayer4 = L.tileLayer('maury-1854-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 5});
+		const mauryLayer5 = L.tileLayer('maury-1854-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 5});
+
 		const andreeLayer1 = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
 		const andreeLayer2 = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
 		const andreeLayer3 = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
 		const andreeLayer4 = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
+		const andreeLayer5 = L.tileLayer('andree-1900-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 5});
+
+		const meteorLayer1 = L.tileLayer('stocks-1934-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 4});
+		const meteorLayer2 = L.tileLayer('stocks-1934-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 4});
+		const meteorLayer3 = L.tileLayer('stocks-1934-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 4});
+		const meteorLayer4 = L.tileLayer('stocks-1934-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 4});
+		const meteorLayer5 = L.tileLayer('stocks-1934-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 4});
+
 		const tharpLayer1 = L.tileLayer('heezen-tharp-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 7});
 		const tharpLayer2 = L.tileLayer('heezen-tharp-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 7});
 		const tharpLayer3 = L.tileLayer('heezen-tharp-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 7});
 		const tharpLayer4 = L.tileLayer('heezen-tharp-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 7});
+		const tharpLayer5 = L.tileLayer('heezen-tharp-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 7});
+
 		const haxbyLayer1 = L.tileLayer('haxby-1983-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 4});
 		const haxbyLayer2 = L.tileLayer('haxby-1983-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 4});
 		const haxbyLayer3 = L.tileLayer('haxby-1983-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 4});
 		const haxbyLayer4 = L.tileLayer('haxby-1983-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 4});
-    const gmrtLayer1 = L.tileLayer.wms('https://www.gmrt.org/services/mapserver/wms_merc?', {layers: 'topo'});
+		const haxbyLayer5 = L.tileLayer('haxby-1983-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 0, maxZoom: 4});
+
+		const gmrtLayer1 = L.tileLayer.wms('https://www.gmrt.org/services/mapserver/wms_merc?', {layers: 'topo'});
 		const gmrtLayer2 = L.tileLayer.wms('https://www.gmrt.org/services/mapserver/wms_merc?', {layers: 'topo'});
 		const gmrtLayer3 = L.tileLayer.wms('https://www.gmrt.org/services/mapserver/wms_merc?', {layers: 'topo'});
 		const gmrtLayer4 = L.tileLayer.wms('https://www.gmrt.org/services/mapserver/wms_merc?', {layers: 'topo'});
+		const gmrtLayer5 = L.tileLayer.wms('https://www.gmrt.org/services/mapserver/wms_merc?', {layers: 'topo'});
 
 		const mLayer1 = L.layerGroup([mauryLayer1, andreeLayer1]);
-		const mLayer2 = L.layerGroup([mauryLayer2, tharpLayer1]);
-		const mLayer3 = L.layerGroup([mauryLayer3, haxbyLayer1]);
-		const mLayer4 = L.layerGroup([mauryLayer4, gmrtLayer1]);
+		const mLayer2 = L.layerGroup([mauryLayer2, meteorLayer1]);
+		const mLayer3 = L.layerGroup([mauryLayer3, tharpLayer1]);
+		const mLayer4 = L.layerGroup([mauryLayer4, haxbyLayer1]);
+		const mLayer5 = L.layerGroup([mauryLayer5, gmrtLayer1]);
 
 		const aLayer1 = L.layerGroup([andreeLayer2, tharpLayer2]);
 		const aLayer2 = L.layerGroup([andreeLayer3, haxbyLayer2]);
@@ -172,6 +188,7 @@
 			'mLayer2' : [mLayer2],
 			'mLayer3' : [mLayer3],
 			'mLayer4' : [mLayer4],
+			'mLayer5' : [mLayer5],
 			'aLayer1' : [aLayer1],
 			'aLayer2' : [aLayer2],
 			'aLayer3' : [aLayer3],
@@ -188,9 +205,10 @@
 							collapsed: true,
 							children: [
 									{ label: '<h6>Maury, 1854 vs. Andree, 1900</h6>', layer: mLayer1 },
-									{ label: '<h6>Maury, 1854 vs. Heezen-Tharp, 1977</h6>', layer: mLayer2 },
-									{ label: '<h6>Maury, 1854 vs. Haxby, 1983</h6>', layer: mLayer3 },
-									{ label: '<h6>Maury, 1854 vs. Contemporary GMRT</h6>', layer: mLayer4 },
+									{ label: '<h6>Maury, 1854 vs. Stocks, 1934</h6>', layer: mLayer2 },
+									{ label: '<h6>Maury, 1854 vs. Heezen-Tharp, 1977</h6>', layer: mLayer3 },
+									{ label: '<h6>Maury, 1854 vs. Haxby, 1983</h6>', layer: mLayer4 },
+									{ label: '<h6>Maury, 1854 vs. Contemporary GMRT</h6>', layer: mLayer5 },
 							]
 					},
 					{
@@ -222,7 +240,7 @@
 
     const scenes = {
 			homepage: {lat: 28.5, lng: -36, zoom: 4, layers: ['esriTerrain'], name: "homepage"},
-			scene1: {lat: 28.5, lng: -36, zoom: 4, layers: ['mLayer1', 'mLayer2', 'mLayer3', 'mLayer4', 'aLayer1', 'aLayer2', 'aLayer3', 'tLayer1', 'tLayer2', 'hLayer1'], name: "scene 1"},
+			scene1: {lat: 28.5, lng: -36, zoom: 4, layers: ['mLayer1', 'mLayer2', 'mLayer3', 'mLayer4', 'mLayer5', 'aLayer1', 'aLayer2', 'aLayer3', 'tLayer1', 'tLayer2', 'hLayer1'], name: "scene 1"},
 			//scene1: {lat: 28.5, lng: -36, zoom: 4, layers: ['mauryLayer', 'andreeLayer'], name: "scene 1"},
       //scene2: {lat: 28.5, lng:-36, zoom: 4, layers: ['andreeLayer', 'tharpLayer'], name: "scene 2"},
 			//scene3: {lat: 28.5, lng:-36, zoom: 4, layers: ['tharpLayer', 'gmrtLayer'], name: "scene 3"}
@@ -251,7 +269,7 @@
 
 						controlCase1.collapseTree(baseTree);
 
-						const layerControl1 = L.control.sideBySide([mauryLayer2, mauryLayer3, mauryLayer4, andreeLayer1, andreeLayer2, andreeLayer3, mauryLayer1, tharpLayer3, tharpLayer4, haxbyLayer4],[tharpLayer1, haxbyLayer1, gmrtLayer1, tharpLayer2, haxbyLayer2, gmrtLayer2, andreeLayer1, haxbyLayer3, gmrtLayer3, gmrtLayer4]);
+						const layerControl1 = L.control.sideBySide([mauryLayer2, mauryLayer3, mauryLayer4, mauryLayer5, andreeLayer1, andreeLayer2, andreeLayer3, mauryLayer1, tharpLayer3, tharpLayer4, haxbyLayer4],[meteorLayer1, tharpLayer1, haxbyLayer1, gmrtLayer1, tharpLayer2, haxbyLayer2, gmrtLayer2, andreeLayer1, haxbyLayer3, gmrtLayer3, gmrtLayer4]);
 
 						// Add a function to check when scenes become visible (when they add a 'viewing' class)
 						$(function () {
@@ -275,6 +293,7 @@
 										map.removeLayer(mLayer2);
 										map.removeLayer(mLayer3);
 										map.removeLayer(mLayer4);
+										map.removeLayer(mLayer5);
 										map.removeLayer(aLayer1);
 										map.removeLayer(aLayer2);
 										map.removeLayer(aLayer3);
@@ -290,6 +309,7 @@
 										map.removeLayer(mLayer2);
 										map.removeLayer(mLayer3);
 										map.removeLayer(mLayer4);
+										map.removeLayer(mLayer5);
 										map.removeLayer(aLayer1);
 										map.removeLayer(aLayer2);
 										map.removeLayer(aLayer3);
