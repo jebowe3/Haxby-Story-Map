@@ -55,6 +55,9 @@
 				<li>
 					<a href="javascript:window.scrollBy(0,$('section[data-scene=scene1]').offset().top-$(window).scrollTop()-40);">Mapping the Seafloor Through History</a>
 				</li>
+				<li>
+					<a href="javascript:window.scrollBy(0,$('section[data-scene=scene2]').offset().top-$(window).scrollTop()-40);">The Pitman Fracture Zone, 1992</a>
+				</li>
 <!--
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Historical Seafloor Mapping<span class="caret"></span></a>
@@ -95,12 +98,12 @@
 				<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h3><br>
 				<h3>Click the radio control in the top right corner to compare important maps in the historical progression of Atlantic seafloor mapping.</h3>
       </section>
-<!--
+
 			<section class="scene2" data-scene="scene2">
-				<h2>Scene 2</h2>
+				<h2>The Pitman Fracture Zone, 1992</h2>
 				<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h3>
 			</section>
-
+<!--
 			<section class="scene3" data-scene="scene3">
 				<h2>Scene 3</h2>
 				<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h3>
@@ -125,6 +128,8 @@
 			attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
 			maxZoom: 13
 		});
+
+		/* LAYERS FOR THE COMPARATIVE MAPS */
 		const mauryLayer1 = L.tileLayer('maury-1854-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 5});
 		const mauryLayer2 = L.tileLayer('maury-1854-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 5});
 		const mauryLayer3 = L.tileLayer('maury-1854-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 5});
@@ -181,6 +186,19 @@
 
 		const hLayer1 = L.layerGroup([haxbyLayer5, gmrtLayer5]);
 
+		/* LAYERS FOR THE PITMAN FZ MAP */
+		const pfzLayer = L.geoJson.ajax('data/NZ_0_360.geojson', {
+			style: function(feature) {
+				return {
+					color: 'blue',
+					weight: 1,
+					opacity: 0.7,
+					dashArray: '5,2',
+					lineJoin: 'round'
+				};
+			}
+		});
+
 /*
 		const baseMaps = {
       "Heezen-Tharp, 1977": tharpLayer,
@@ -203,7 +221,8 @@
 			'sLayer3' : [sLayer3],
 			'tLayer1' : [tLayer1],
 			'tLayer2' : [tLayer2],
-			'hLayer1' : [hLayer1]
+			'hLayer1' : [hLayer1],
+			'pfzLayer' : [pfzLayer]
     };
 
 		const baseTree = {
@@ -260,16 +279,16 @@
     const scenes = {
 			homepage: {lat: 28.5, lng: -36, zoom: 4, layers: ['esriTerrain'], name: "homepage"},
 			scene1: {lat: 28.5, lng: -36, zoom: 4, layers: ['mLayer1', 'mLayer2', 'mLayer3', 'mLayer4', 'mLayer5', 'aLayer1', 'aLayer2', 'aLayer3', 'aLayer4', 'sLayer1', 'sLayer2', 'sLayer3', 'tLayer1', 'tLayer2', 'hLayer1'], name: "scene 1"},
-			//scene1: {lat: 28.5, lng: -36, zoom: 4, layers: ['mauryLayer', 'andreeLayer'], name: "scene 1"},
+			scene2: {lat: -60, lng: 172.620278, zoom: 4, layers: ['esriTerrain', 'pfzLayer'], name: "scene 2"},
       //scene2: {lat: 28.5, lng:-36, zoom: 4, layers: ['andreeLayer', 'tharpLayer'], name: "scene 2"},
 			//scene3: {lat: 28.5, lng:-36, zoom: 4, layers: ['tharpLayer', 'gmrtLayer'], name: "scene 3"}
     };
 
     $('.main').storymap({
         scenes: scenes,
-        layers:layers,
+        layers: layers,
         legend: false,
-        scale:false,
+        scale: false,
         navwidget: true,
         createMap: function () {
             // create a map in the "map" div, set the view to a given place and zoom
@@ -296,7 +315,7 @@
 							map.removeControl(controlCase1);
 
 							map.on('moveend', function() {
-								if ($(".homepage").hasClass("viewing")) {
+								if (($(".homepage").hasClass("viewing")) || ($(".scene2").hasClass("viewing"))) {
 									map.removeControl(controlCase1);
 									map.removeControl(layerControl1);
 								}
@@ -308,6 +327,55 @@
 									//var properties = $(this).attrchange('getProperties');
 									// when the homepage becomes visible...
 									if ($(".homepage").hasClass("viewing")) {
+										map.removeLayer(mLayer1);
+										map.removeLayer(mLayer2);
+										map.removeLayer(mLayer3);
+										map.removeLayer(mLayer4);
+										map.removeLayer(mLayer5);
+										map.removeLayer(aLayer1);
+										map.removeLayer(aLayer2);
+										map.removeLayer(aLayer3);
+										map.removeLayer(aLayer4);
+										map.removeLayer(sLayer1);
+										map.removeLayer(sLayer2);
+										map.removeLayer(sLayer3);
+										map.removeLayer(tLayer1);
+										map.removeLayer(tLayer2);
+										map.removeLayer(hLayer1);
+										map.removeControl(controlCase1);
+										map.removeControl(layerControl1);
+										esriTerrain.bringToFront();
+										// when scene1 becomes visible...
+									} else if ($(".scene1").hasClass("viewing")) {
+										map.addLayer(mLayer1);
+										map.removeLayer(mLayer2);
+										map.removeLayer(mLayer3);
+										map.removeLayer(mLayer4);
+										map.removeLayer(mLayer5);
+										map.removeLayer(aLayer1);
+										map.removeLayer(aLayer2);
+										map.removeLayer(aLayer3);
+										map.removeLayer(aLayer4);
+										map.removeLayer(sLayer1);
+										map.removeLayer(sLayer2);
+										map.removeLayer(sLayer3);
+										map.removeLayer(tLayer1);
+										map.removeLayer(tLayer2);
+										map.removeLayer(hLayer1);
+										map.addControl(controlCase1);
+										map.addControl(layerControl1);
+									} else {
+										console.log("scenes not visible");
+									}
+								}
+							});
+
+							$('.scene2').attrchange({
+								trackValues: true,
+								callback: function (event) {
+									//var properties = $(this).attrchange('getProperties');
+									// when the homepage becomes visible...
+									if ($(".scene2").hasClass("viewing")) {
 										map.removeLayer(mLayer1);
 										map.removeLayer(mLayer2);
 										map.removeLayer(mLayer3);
