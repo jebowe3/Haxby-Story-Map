@@ -345,11 +345,13 @@
 							map.removeControl(controlCase1);
 
 							map.on('moveend', function() {
-								console.log('movend');
+								// if scene2 is visible
 								if ($(".scene2").hasClass("viewing")) {
+									// add the controls
 									map.addControl(controlCase1);
 									map.addControl(layerControl1);
 								} else {
+									// remove controls and unneeded layers that may have been added by user activity in scene2
 									map.removeControl(controlCase1);
 									map.removeControl(layerControl1);
 									map.removeLayer(mLayer2);
@@ -382,31 +384,6 @@
         }
     });
 
-/*
-		// Need to edit this function to check if the element is visible inside its parent,
-		// or some other way of checking to see if only the desired element is 100% in view
-		function elementInViewport(el) {
-
-			var top = el.offsetTop;
-			var left = el.offsetLeft;
-			var width = el.offsetWidth;
-			var height = el.offsetHeight;
-
-			while(el.offsetParent) {
-				el = el.offsetParent;
-				top += el.offsetTop;
-				left += el.offsetLeft;
-			}
-
-			return (
-				top >= window.pageYOffset &&
-				left >= window.pageXOffset &&
-				(top + height) <= (window.pageYOffset + window.innerHeight) &&
-				(left + width) <= (window.pageXOffset + window.innerWidth)
-			);
-
-		}
-*/
 </script>
 </body>
 </html>
