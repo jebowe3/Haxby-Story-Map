@@ -113,7 +113,7 @@
 				<h2>Mythical Islands</h2>
 				<h3>Produced in 1630, Willem Blaeu's "Nova Totius Terrarum Orbis Geographica ac Hydrographica Tabula" is emblematic of the way in which cartographers represented the unknown in maps of the era. The seas were unfamiliar and threatening places, inhabited by monstruous creatures and filled with unexplainable phenomena. For many centuries, European maps charted the locations of legendary islands in the North Atlantic, which were never located through subsequent exploration. Here, the islands of Brasil (here named Brazil), Mayda (here named As Maidas), and Bacalao (here called Terra de Bacalaos) are clearly visible, but are nowhere to be seen in modern maps of the Atlantic.</h3>
 				<br>
-				<h3>The location of Brasil was informed by previous maps and Irish myth, which claimed the island was intermittently visible from Ireland's western coast. To the south of it, Mayda was thought to be a crescent-shaped island west of Brittany. Both islands persisted on maps well into the 19th century. Some theories hold that Mayda and Bacalao were features of the North American coastline that early European explorers accidentally observed when lost. The Portuguese navigator, Joao Vaz Corte-Real was alleged to have explored the "Terra Nova do Bacalhau" shortly before Columbus landed at San Salvador in the present-day Bahamas. Some later hypothesized that Bacalao could have been present-day Newfoundland, which appears to be the case in Blaeu's map.</h3>
+				<h3>The location of Brasil was informed by previous maps and Irish myth, which claimed the island was intermittently visible from Ireland's western coast. To the south of it, Mayda was thought to be a crescent-shaped island west of Brittany. Both islands persisted on maps well into the 19th century. Some theories hold that Mayda and Bacalao were features of the North American coastline that early European explorers accidentally observed when lost. The Portuguese navigator, Joao Vaz Corte-Real was alleged to have explored the "Terra Nova do Bacalhau" shortly before Columbus landed at San Salvador in the present-day Bahamas. Some later hypothesized that Bacalao could have been present-day Newfoundland, as it appears in Blaeu's map.</h3>
 			</section>
 			<section id="scene" class="scene1b" data-scene="scene1b">
 				<h2>Sea Monsters</h2>
@@ -150,6 +150,12 @@
 <script type="text/javascript">
 
 		const seasat = L.imageOverlay('img/Seasat.jpg', [[-50, 90], [70, -150]]);
+		const mIslands = L.geoJson.ajax('data/mythIslands.geojson', {
+			onEachFeature: function(feature, layer) {
+				const island = layer.feature.properties.name;
+				layer.bindTooltip(island);
+			}
+		});
 
 		/* LAYERS FOR THE COMPARATIVE MAPS */
 		const mauryLayer1 = L.tileLayer('maury-1854-tiles/{z}/{x}/{y}.png', {tms: true, opacity: 1.0, attribution: "", minZoom: 1, maxZoom: 5});
@@ -236,6 +242,7 @@
 */
     const layers = {
 			'seasat' : [seasat],
+			'mIslands' : [mIslands],
 			'blaeu' : [blaeu],
 			'mLayer1' : [mLayer1],
 			'mLayer2' : [mLayer2],
@@ -309,7 +316,7 @@
 
     const scenes = {
 			homepage: {lat: 28.5, lng: -36, zoom: 4, layers: ['seasat'], name: "homepage"},
-			scene1a: {lat: 52, lng: -18.9, zoom: 5, layers: ['blaeu'], name: "scene 1a"},
+			scene1a: {lat: 52, lng: -34, zoom: 5, layers: ['blaeu', 'mIslands'], name: "scene 1a"},
 			scene1b: {lat: -34.5, lng: -124, zoom: 5, layers: ['blaeu'], name: "scene 1b"},
 			scene2: {lat: 28.5, lng: -36, zoom: 4, layers: ['mLayer1'], name: "scene 2"},
 			//scene2: {lat: 28.5, lng: -36, zoom: 4, layers: ['mLayer1', 'mLayer2', 'mLayer3', 'mLayer4', 'mLayer5', 'aLayer1', 'aLayer2', 'aLayer3', 'aLayer4', 'sLayer1', 'sLayer2', 'sLayer3', 'tLayer1', 'tLayer2', 'hLayer1'], name: "scene 2"},
