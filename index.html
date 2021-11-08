@@ -105,25 +105,24 @@
       </section>
 -->
 
-			<section class="homepage" data-scene="homepage">
+			<section id="scene" class="homepage" data-scene="homepage">
 				<h2>Haxby Project Title</h2>
 				<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h3>
 			</section>
-			<section class="scene1a" data-scene="scene1a">
+			<section id="scene" class="scene1a" data-scene="scene1a">
 				<h2>Mythical Islands</h2>
 				<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h3>
 			</section>
-			<section class="scene1b" data-scene="scene1b">
+			<section id="scene" class="scene1b" data-scene="scene1b">
 				<h2>Sea Monsters</h2>
 				<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h3>
 			</section>
-			<section class="scene2" data-scene="scene2">
+			<section id="scene" class="scene2" data-scene="scene2">
         <h2>Mapping the Seafloor Through History</h2>
 				<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h3><br>
 				<h3>Click the radio control in the top right corner to compare important maps in the historical progression of Atlantic seafloor mapping.</h3>
       </section>
-
-			<section class="scene3" data-scene="scene3">
+			<section id="scene" class="scene3" data-scene="scene3">
 				<h2>The Pitman Fracture Zone, 1992</h2>
 				<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h3>
 			</section>
@@ -235,6 +234,7 @@
 */
     const layers = {
 			'seasat' : [seasat],
+			'blaeu' : [blaeu],
 			'mLayer1' : [mLayer1],
 			'mLayer2' : [mLayer2],
 			'mLayer3' : [mLayer3],
@@ -252,7 +252,6 @@
 			'hLayer1' : [hLayer1],
 			'pfzLayer' : [pfzLayer],
 			'esriTerrain' : [esriTerrain],
-			'blaeu' : [blaeu],
     };
 
 		const baseTree = {
@@ -310,7 +309,8 @@
 			homepage: {lat: 28.5, lng: -36, zoom: 4, layers: ['seasat'], name: "homepage"},
 			scene1a: {lat: 52, lng: -18.9, zoom: 5, layers: ['blaeu'], name: "scene 1a"},
 			scene1b: {lat: -34.5, lng: -124, zoom: 5, layers: ['blaeu'], name: "scene 1b"},
-			scene2: {lat: 28.5, lng: -36, zoom: 4, layers: ['mLayer1', 'mLayer2', 'mLayer3', 'mLayer4', 'mLayer5', 'aLayer1', 'aLayer2', 'aLayer3', 'aLayer4', 'sLayer1', 'sLayer2', 'sLayer3', 'tLayer1', 'tLayer2', 'hLayer1'], name: "scene 2"},
+			scene2: {lat: 28.5, lng: -36, zoom: 4, layers: ['mLayer1'], name: "scene 2"},
+			//scene2: {lat: 28.5, lng: -36, zoom: 4, layers: ['mLayer1', 'mLayer2', 'mLayer3', 'mLayer4', 'mLayer5', 'aLayer1', 'aLayer2', 'aLayer3', 'aLayer4', 'sLayer1', 'sLayer2', 'sLayer3', 'tLayer1', 'tLayer2', 'hLayer1'], name: "scene 2"},
 			scene3: {lat: -60, lng: 172.620278, zoom: 4, layers: ['esriTerrain', 'pfzLayer'], name: "scene 3"},
     };
 
@@ -345,281 +345,27 @@
 							map.removeControl(controlCase1);
 
 							map.on('moveend', function() {
-								if (($(".homepage").hasClass("viewing")) || ($(".scene1a").hasClass("viewing")) || ($(".scene1b").hasClass("viewing")) || ($(".scene3").hasClass("viewing"))) {
+								console.log('movend');
+								if ($(".scene2").hasClass("viewing")) {
+									map.addControl(controlCase1);
+									map.addControl(layerControl1);
+								} else {
 									map.removeControl(controlCase1);
 									map.removeControl(layerControl1);
-								}
-							});
-
-							$('.homepage').attrchange({
-								trackValues: true,
-								callback: function (event) {
-									//var properties = $(this).attrchange('getProperties');
-									// when the homepage becomes visible...
-									if ($(".homepage").hasClass("viewing")) {
-										map.addLayer(seasat);
-										map.removeLayer(mLayer1);
-										map.removeLayer(mLayer2);
-										map.removeLayer(mLayer3);
-										map.removeLayer(mLayer4);
-										map.removeLayer(mLayer5);
-										map.removeLayer(aLayer1);
-										map.removeLayer(aLayer2);
-										map.removeLayer(aLayer3);
-										map.removeLayer(aLayer4);
-										map.removeLayer(sLayer1);
-										map.removeLayer(sLayer2);
-										map.removeLayer(sLayer3);
-										map.removeLayer(tLayer1);
-										map.removeLayer(tLayer2);
-										map.removeLayer(hLayer1);
-										map.removeLayer(esriTerrain);
-										map.removeControl(controlCase1);
-										map.removeControl(layerControl1);
-										//esriTerrain.bringToFront();
-										// when scene1a becomes visible...
-									} else if ($(".scene1a").hasClass("viewing")) {
-										map.addLayer(blaeu);
-										map.removeLayer(seasat);
-										map.removeLayer(mLayer1);
-										map.removeLayer(mLayer2);
-										map.removeLayer(mLayer3);
-										map.removeLayer(mLayer4);
-										map.removeLayer(mLayer5);
-										map.removeLayer(aLayer1);
-										map.removeLayer(aLayer2);
-										map.removeLayer(aLayer3);
-										map.removeLayer(aLayer4);
-										map.removeLayer(sLayer1);
-										map.removeLayer(sLayer2);
-										map.removeLayer(sLayer3);
-										map.removeLayer(tLayer1);
-										map.removeLayer(tLayer2);
-										map.removeLayer(hLayer1);
-										map.removeLayer(esriTerrain);
-										map.removeControl(controlCase1);
-										map.removeControl(layerControl1);
-									} else {
-										console.log("scenes not visible");
-									}
-								}
-							});
-
-							$('.scene1a').attrchange({
-								trackValues: true,
-								callback: function (event) {
-									//var properties = $(this).attrchange('getProperties');
-									// when the scene1a becomes visible...
-									if ($(".scene1a").hasClass("viewing")) {
-										map.addLayer(blaeu);
-										map.removeLayer(seasat);
-										map.removeLayer(mLayer1);
-										map.removeLayer(mLayer2);
-										map.removeLayer(mLayer3);
-										map.removeLayer(mLayer4);
-										map.removeLayer(mLayer5);
-										map.removeLayer(aLayer1);
-										map.removeLayer(aLayer2);
-										map.removeLayer(aLayer3);
-										map.removeLayer(aLayer4);
-										map.removeLayer(sLayer1);
-										map.removeLayer(sLayer2);
-										map.removeLayer(sLayer3);
-										map.removeLayer(tLayer1);
-										map.removeLayer(tLayer2);
-										map.removeLayer(hLayer1);
-										map.removeLayer(esriTerrain);
-										map.removeControl(controlCase1);
-										map.removeControl(layerControl1);
-										// when scene1b becomes visible...
-									} else if ($(".scene1b").hasClass("viewing")) {
-										map.addLayer(blaeu);
-										map.removeLayer(seasat);
-										map.removeLayer(mLayer1);
-										map.removeLayer(mLayer2);
-										map.removeLayer(mLayer3);
-										map.removeLayer(mLayer4);
-										map.removeLayer(mLayer5);
-										map.removeLayer(aLayer1);
-										map.removeLayer(aLayer2);
-										map.removeLayer(aLayer3);
-										map.removeLayer(aLayer4);
-										map.removeLayer(sLayer1);
-										map.removeLayer(sLayer2);
-										map.removeLayer(sLayer3);
-										map.removeLayer(tLayer1);
-										map.removeLayer(tLayer2);
-										map.removeLayer(hLayer1);
-										map.removeLayer(esriTerrain);
-										map.removeControl(controlCase1);
-										map.removeControl(layerControl1);
-									} else {
-										console.log("scenes not visible");
-									}
-								}
-							});
-
-							$('.scene1b').attrchange({
-								trackValues: true,
-								callback: function (event) {
-									//var properties = $(this).attrchange('getProperties');
-									// when the scene1a becomes visible...
-									if ($(".scene1b").hasClass("viewing")) {
-										map.addLayer(blaeu);
-										map.removeLayer(seasat);
-										map.removeLayer(mLayer1);
-										map.removeLayer(mLayer2);
-										map.removeLayer(mLayer3);
-										map.removeLayer(mLayer4);
-										map.removeLayer(mLayer5);
-										map.removeLayer(aLayer1);
-										map.removeLayer(aLayer2);
-										map.removeLayer(aLayer3);
-										map.removeLayer(aLayer4);
-										map.removeLayer(sLayer1);
-										map.removeLayer(sLayer2);
-										map.removeLayer(sLayer3);
-										map.removeLayer(tLayer1);
-										map.removeLayer(tLayer2);
-										map.removeLayer(hLayer1);
-										map.removeLayer(esriTerrain);
-										map.removeControl(controlCase1);
-										map.removeControl(layerControl1);
-										// when scene1b becomes visible...
-									} else if ($(".scene2").hasClass("viewing")) {
-										map.addLayer(mLayer1);
-										map.removeLayer(blaeu);
-										map.removeLayer(seasat);
-										map.removeLayer(mLayer2);
-										map.removeLayer(mLayer3);
-										map.removeLayer(mLayer4);
-										map.removeLayer(mLayer5);
-										map.removeLayer(aLayer1);
-										map.removeLayer(aLayer2);
-										map.removeLayer(aLayer3);
-										map.removeLayer(aLayer4);
-										map.removeLayer(sLayer1);
-										map.removeLayer(sLayer2);
-										map.removeLayer(sLayer3);
-										map.removeLayer(tLayer1);
-										map.removeLayer(tLayer2);
-										map.removeLayer(hLayer1);
-										map.removeLayer(esriTerrain);
-										map.addControl(controlCase1);
-										map.addControl(layerControl1);
-									} else {
-										console.log("scenes not visible");
-									}
-								}
-							});
-
-							$('.scene2').attrchange({
-								trackValues: true,
-								callback: function (event) {
-									//var properties = $(this).attrchange('getProperties');
-									// when scene2 becomes visible...
-									if ($(".scene2").hasClass("viewing")) {
-										map.addLayer(mLayer1);
-										map.removeLayer(blaeu);
-										map.removeLayer(seasat);
-										map.removeLayer(mLayer2);
-										map.removeLayer(mLayer3);
-										map.removeLayer(mLayer4);
-										map.removeLayer(mLayer5);
-										map.removeLayer(aLayer1);
-										map.removeLayer(aLayer2);
-										map.removeLayer(aLayer3);
-										map.removeLayer(aLayer4);
-										map.removeLayer(sLayer1);
-										map.removeLayer(sLayer2);
-										map.removeLayer(sLayer3);
-										map.removeLayer(tLayer1);
-										map.removeLayer(tLayer2);
-										map.removeLayer(hLayer1);
-										map.removeLayer(esriTerrain);
-										map.addControl(controlCase1);
-										map.addControl(layerControl1);
-										// when scene3 becomes visible...
-									} else if ($(".scene3").hasClass("viewing")) {
-										map.removeLayer(blaeu);
-										map.removeLayer(seasat)
-										map.removeLayer(mLayer1);
-										map.removeLayer(mLayer2);
-										map.removeLayer(mLayer3);
-										map.removeLayer(mLayer4);
-										map.removeLayer(mLayer5);
-										map.removeLayer(aLayer1);
-										map.removeLayer(aLayer2);
-										map.removeLayer(aLayer3);
-										map.removeLayer(aLayer4);
-										map.removeLayer(sLayer1);
-										map.removeLayer(sLayer2);
-										map.removeLayer(sLayer3);
-										map.removeLayer(tLayer1);
-										map.removeLayer(tLayer2);
-										map.removeLayer(hLayer1);
-										map.removeControl(controlCase1);
-										map.removeControl(layerControl1);
-										map.addLayer(esriTerrain);
-										esriTerrain.bringToFront();
-									} else {
-										console.log("scenes not visible");
-									}
-								}
-							});
-
-							$('.scene3').attrchange({
-								trackValues: true,
-								callback: function (event) {
-									//var properties = $(this).attrchange('getProperties');
-									// when scene3 becomes visible...
-									if ($(".scene3").hasClass("viewing")) {
-										map.removeLayer(seasat);
-										map.removeLayer(blaeu);
-										map.removeLayer(mLayer1);
-										map.removeLayer(mLayer2);
-										map.removeLayer(mLayer3);
-										map.removeLayer(mLayer4);
-										map.removeLayer(mLayer5);
-										map.removeLayer(aLayer1);
-										map.removeLayer(aLayer2);
-										map.removeLayer(aLayer3);
-										map.removeLayer(aLayer4);
-										map.removeLayer(sLayer1);
-										map.removeLayer(sLayer2);
-										map.removeLayer(sLayer3);
-										map.removeLayer(tLayer1);
-										map.removeLayer(tLayer2);
-										map.removeLayer(hLayer1);
-										map.removeControl(controlCase1);
-										map.removeControl(layerControl1);
-										map.addLayer(esriTerrain);
-										esriTerrain.bringToFront();
-										// when scene2 becomes visible...
-									} else if ($(".scene2").hasClass("viewing")) {
-										map.addLayer(mLayer1);
-										map.removeLayer(seasat);
-										map.removeLayer(blaeu);
-										map.removeLayer(mLayer2);
-										map.removeLayer(mLayer3);
-										map.removeLayer(mLayer4);
-										map.removeLayer(mLayer5);
-										map.removeLayer(aLayer1);
-										map.removeLayer(aLayer2);
-										map.removeLayer(aLayer3);
-										map.removeLayer(aLayer4);
-										map.removeLayer(sLayer1);
-										map.removeLayer(sLayer2);
-										map.removeLayer(sLayer3);
-										map.removeLayer(tLayer1);
-										map.removeLayer(tLayer2);
-										map.removeLayer(hLayer1);
-										map.removeLayer(esriTerrain);
-										map.addControl(controlCase1);
-										map.addControl(layerControl1);
-									} else {
-										console.log("scenes not visible");
-									}
+									map.removeLayer(mLayer2);
+									map.removeLayer(mLayer3);
+									map.removeLayer(mLayer4);
+									map.removeLayer(mLayer5);
+									map.removeLayer(aLayer1);
+									map.removeLayer(aLayer2);
+									map.removeLayer(aLayer3);
+									map.removeLayer(aLayer4);
+									map.removeLayer(sLayer1);
+									map.removeLayer(sLayer2);
+									map.removeLayer(sLayer3);
+									map.removeLayer(tLayer1);
+									map.removeLayer(tLayer2);
+									map.removeLayer(hLayer1);
 								}
 							});
 
@@ -635,6 +381,7 @@
 
         }
     });
+
 /*
 		// Need to edit this function to check if the element is visible inside its parent,
 		// or some other way of checking to see if only the desired element is 100% in view
