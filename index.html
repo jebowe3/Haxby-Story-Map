@@ -111,7 +111,7 @@
 			</section>
 			<section id="scene" class="scene1a" data-scene="scene1a">
 				<h2>Mythical Islands</h2>
-				<h3>Produced in 1630, Willem Blaeu's "Nova Totius Terrarum Orbis Geographica ac Hydrographica Tabula" is emblematic of the way in which cartographers represented the unknown in maps of the era. The seas were unfamiliar and threatening places, inhabited by monstruous creatures and filled with unexplainable phenomena. For many centuries, European maps charted the locations of legendary islands in the North Atlantic, which were never located through subsequent exploration. Here, the islands of Brasil (here named Brazil), Mayda (here named As Maidas), and Bacalao (here called Terra de Bacalaos) are clearly visible, but are nowhere to be seen in modern maps of the Atlantic.</h3>
+				<h3>Produced in 1630, Willem Blaeu's "Nova Totius Terrarum Orbis Geographica ac Hydrographica Tabula" is emblematic of the way in which cartographers represented the unknown in maps of the era. The seas were unfamiliar and threatening places, inhabited by monstruous creatures and filled with unexplainable phenomena. For many centuries, European maps charted the locations of legendary islands in the North Atlantic, which were never found through subsequent exploration. Here, the islands of Brasil (here named Brazil), Mayda (here named As Maidas), and Bacalao (here called Terra de Bacalaos) are clearly visible, but are nowhere to be seen in modern maps of the Atlantic.</h3>
 				<br>
 				<h3>The location of Brasil was informed by previous maps and Irish myth, which claimed the island was intermittently visible from Ireland's western coast. To the south of it, Mayda was thought to be a crescent-shaped island west of Brittany. Both islands persisted on maps well into the 19th century. Some theories hold that Mayda and Bacalao were features of the North American coastline that early European explorers accidentally observed when lost. The Portuguese navigator, Joao Vaz Corte-Real was alleged to have explored the "Terra Nova do Bacalhau" shortly before Columbus landed at San Salvador in the present-day Bahamas. Some later hypothesized that Bacalao could have been present-day Newfoundland, as it appears in Blaeu's map.</h3>
 			</section>
@@ -215,7 +215,7 @@
 		const hLayer1 = L.layerGroup([haxbyLayer5, gmrtLayer5]);
 
 		/* LAYERS FOR THE PITMAN FZ MAP */
-		const pfzLayer = L.geoJson.ajax('data/NZ_0_360.geojson', {
+		const pfzLayer = L.geoJson.ajax('data/segments_withDates_0_360.geojson', {
 			style: function(feature) {
 				return {
 					color: 'blue',
@@ -224,6 +224,22 @@
 					dashArray: '5,2',
 					lineJoin: 'round'
 				};
+			},
+			onEachFeature: function(feature, layer) {
+				const date = layer.feature.properties.Date;
+				layer.bindTooltip("Date: " + date);
+				layer.on('mouseover', function(e){
+				  layer.setStyle({
+						color: 'yellow',
+						weight: 2,
+					});
+				});
+				layer.on('mouseout', function(e) {
+				  layer.setStyle({
+						color: 'blue',
+						weight: 1,
+					});
+				});
 			}
 		});
 
