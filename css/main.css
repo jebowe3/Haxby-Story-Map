@@ -91,6 +91,15 @@
     margin-right: 5px
 }
 
+.leaflet-popup-content {
+    margin-top: 20px;
+    margin-right: 2px;
+    padding-right: 12px;
+    min-width: 100 px !important;
+    max-height: 300px;
+    overflow: auto;
+}
+
 /* the layer control */
 /*
 .leaflet-control-layers {
