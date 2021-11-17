@@ -244,9 +244,45 @@
 		const seasat = L.imageOverlay('img/Seasat.jpg', [[-50, 90], [70, -150]]);
 
 		const mIslands = L.geoJson.ajax('data/mythIslands.geojson', {
+			// make a layer from points
+  		pointToLayer: function(feature, ll) {
+        // return a marker
+        return L.marker(ll, {
+          icon: L.icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+          })
+        });
+      },
 			onEachFeature: function(feature, layer) {
 				const island = layer.feature.properties.name;
-				layer.bindTooltip(island);
+				layer.bindTooltip(island, {
+          sticky: true
+        });
+				layer.on('mouseover', function(e) {
+					e.target.setIcon(new L.icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+          }));
+				});
+				layer.on('mouseout', function(e) {
+					this.setIcon(L.icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+          }));
+				});
 			}
 		});
 
@@ -352,6 +388,20 @@
 		const pfzEmails12 = L.layerGroup();
 
 		const pfzEmailOptions = {
+			// make a layer from points
+  		pointToLayer: function(feature, ll) {
+        // return a marker
+        return L.marker(ll, {
+          icon: L.icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+          })
+        });
+      },
 			onEachFeature: function(feature, layer) {
 				const date = layer.feature.properties.GMT_date;
 				const ctype = layer.feature.properties.type;
@@ -381,6 +431,24 @@
 				layer.bindPopup('<b>' + date + '<br>' + timeValue + '<b><br><br>' + ctext);
 				layer.on('mouseover', function(e) {
 					e.target.openPopup();
+					e.target.setIcon(new L.icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+          }));
+				});
+				layer.on('mouseout', function(e) {
+					this.setIcon(L.icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+          }));
 				});
 				if (cid == 1) {
 					pfzEmails1.addLayer(layer);
@@ -517,7 +585,6 @@
 			scene1a: {lat: 52, lng: -34, zoom: 5, layers: ['blaeu', 'mIslands'], name: "scene 1a"},
 			scene1b: {lat: -34.5, lng: -124, zoom: 5, layers: ['blaeu'], name: "scene 1b"},
 			scene2: {lat: 28.5, lng: -36, zoom: 4, layers: ['mLayer1'], name: "scene 2"},
-			//scene2: {lat: 28.5, lng: -36, zoom: 4, layers: ['mLayer1', 'mLayer2', 'mLayer3', 'mLayer4', 'mLayer5', 'aLayer1', 'aLayer2', 'aLayer3', 'aLayer4', 'sLayer1', 'sLayer2', 'sLayer3', 'tLayer1', 'tLayer2', 'hLayer1'], name: "scene 2"},
 			scene3: {lat: -60, lng: 172.620278, zoom: 4, layers: ['gmrtLayer6', 'pfzLayer', 'pfzEmails'], name: "scene 3"},
 			scene3a: {lat: -43.10, lng: 172.50, zoom: 6, layers: ['gmrtLayer6', 'pfzLayer', 'pfzEmails1'], name: "scene 3a"},
 			scene3b: {lat: -43.20, lng: 172.55, zoom: 7, layers: ['gmrtLayer6', 'pfzLayer', 'pfzEmails2'], name: "scene 3b"},
