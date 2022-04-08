@@ -133,6 +133,14 @@
 						</li>
 					</ul>
 				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">The Eirik Drift, 2002<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li>
+							<a href="javascript:window.scrollBy(0,$('section[data-scene=scene4]').offset().top-$(window).scrollTop()-40);">The Course of the Knorr Cruise, KN166-14</a>
+						</li>
+					</ul>
+				</li>
 <!--
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Historical Seafloor Mapping<span class="caret"></span></a>
@@ -267,7 +275,10 @@
 				<h2>February 26, 1992</h2>
 				<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h3>
 			</section>
-
+			<section id="scene" class="scene4" data-scene="scene4">
+				<h2>The Eirik Drift, 2002</h2>
+				<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h3>
+			</section>
 
 <!--
 			<section class="scene3" data-scene="scene3">
@@ -373,6 +384,8 @@
 		const gmrtLayer5 = L.tileLayer.wms('https://www.gmrt.org/services/mapserver/wms_merc?', {layers: 'topo'});
 
 		const gmrtLayer6 = L.tileLayer.wms('https://www.gmrt.org/services/mapserver/wms_merc?', {layers: 'topo'});
+		const Esri_NatGeoWorldMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', { attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC', maxZoom: 16 });
+		const CyclOSM = L.tileLayer('https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png', {maxZoom: 20, attribution: '<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> | Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
 
 		const mLayer1 = L.layerGroup([mauryLayer1, andreeLayer1]);
 		const mLayer2 = L.layerGroup([mauryLayer2, meteorLayer1]);
@@ -529,6 +542,35 @@
 
 		const pfzEmails = L.geoJson.ajax('data/PitmanFZemails.geojson', pfzEmailOptions);
 
+		/* LAYERS FOR THE EIRIK DRIFT MAP */
+		const eirikLayer = L.geoJson.ajax('data/Iceland_Voyage.geojson', {
+			style: function(feature) {
+				return {
+					color: 'blue',
+					weight: 1,
+					opacity: 0.7,
+					dashArray: '5,2',
+					lineJoin: 'round'
+				};
+			},
+			onEachFeature: function(feature, layer) {
+				const date = layer.feature.properties.date;
+				layer.bindTooltip("Date: " + date, {sticky: true});
+				layer.on('mouseover', function(e){
+				  layer.setStyle({
+						color: 'yellow',
+						weight: 2,
+					});
+				});
+				layer.on('mouseout', function(e) {
+				  layer.setStyle({
+						color: 'blue',
+						weight: 1,
+					});
+				});
+			}
+		});
+
 		const esriTerrain = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
 			attribution: 'Tiles &copy; Esri &mdash; Source: USGS, Esri, TANA, DeLorme, and NPS',
 			maxZoom: 13
@@ -575,7 +617,10 @@
 			'pfzEmails10' : [pfzEmails10],
 			'pfzEmails11' : [pfzEmails11],
 			'pfzEmails12' : [pfzEmails12],
+			'eirikLayer' : [eirikLayer],
 			'gmrtLayer6' : [gmrtLayer6],
+			'Esri_NatGeoWorldMap' : [Esri_NatGeoWorldMap],
+			'CyclOSM' : [CyclOSM]
     };
 
 		const baseTree = {
@@ -639,11 +684,11 @@
 			scene2c: {lat: 28.5, lng: -36, zoom: 4, layers: ['sLayer1'], name: "scene 2c"},
 			scene2d: {lat: 28.5, lng: -36, zoom: 4, layers: ['tLayer1'], name: "scene 2d"},
 			scene2e: {lat: 28.5, lng: -36, zoom: 4, layers: ['hLayer1'], name: "scene 2e"},
-			scene3: {lat: -60, lng: 172.620278, zoom: 4, layers: ['gmrtLayer6', 'pfzLayer', 'pfzEmails'], name: "scene 3"},
-			scene3a: {lat: -43.10, lng: 172.50, zoom: 6, layers: ['gmrtLayer6', 'pfzLayer', 'pfzEmails1'], name: "scene 3a"},
-			scene3b: {lat: -43.20, lng: 172.55, zoom: 7, layers: ['gmrtLayer6', 'pfzLayer', 'pfzEmails2'], name: "scene 3b"},
-			scene3c: {lat: -43.50, lng: 172.62, zoom: 8, layers: ['gmrtLayer6', 'pfzLayer', 'pfzEmails3'], name: "scene 3c"},
-			scene3d: {lat: -43.55, lng: 172.67, zoom: 9, layers: ['gmrtLayer6', 'pfzLayer', 'pfzEmails4'], name: "scene 3d"},
+			scene3: {lat: -60, lng: 172.620278, zoom: 4, layers: ['Esri_NatGeoWorldMap', 'pfzLayer', 'pfzEmails'], name: "scene 3"},
+			scene3a: {lat: -43.10, lng: 172.50, zoom: 6, layers: ['CyclOSM', 'pfzLayer', 'pfzEmails1'], name: "scene 3a"},
+			scene3b: {lat: -43.20, lng: 172.55, zoom: 8, layers: ['CyclOSM', 'pfzLayer', 'pfzEmails2'], name: "scene 3b"},
+			scene3c: {lat: -43.50, lng: 172.62, zoom: 11, layers: ['CyclOSM', 'pfzLayer', 'pfzEmails3'], name: "scene 3c"},
+			scene3d: {lat: -43.55, lng: 172.67, zoom: 8, layers: ['gmrtLayer6', 'pfzLayer', 'pfzEmails4'], name: "scene 3d"},
 			scene3e: {lat: -69.92231, lng: 205.13852, zoom: 8, layers: ['gmrtLayer6', 'pfzLayer', 'pfzEmails5'], name: "scene 3e"},
 			scene3f: {lat: -65.44117, lng: 191.18665, zoom: 8, layers: ['gmrtLayer6', 'pfzLayer', 'pfzEmails6'], name: "scene 3f"},
 			scene3g: {lat: -63.69325, lng: 188.08264, zoom: 8, layers: ['gmrtLayer6', 'pfzLayer', 'pfzEmails7'], name: "scene 3g"},
@@ -652,6 +697,7 @@
 			scene3j: {lat: -60.61742, lng: 177.1407, zoom: 8, layers: ['gmrtLayer6', 'pfzLayer', 'pfzEmails10'], name: "scene 3j"},
 			scene3k: {lat: -59.81476, lng: 176.38527, zoom: 8, layers: ['gmrtLayer6', 'pfzLayer', 'pfzEmails11'], name: "scene 3k"},
 			scene3l: {lat: -49.85465, lng: 173.85524, zoom: 5, layers: ['gmrtLayer6', 'pfzLayer', 'pfzEmails12'], name: "scene 3l"},
+			scene4: {lat: 59.421839, lng: -42.500534, zoom: 5, layers: ['Esri_NatGeoWorldMap', 'eirikLayer'], name: "scene 4"}
     };
 
     $('.main').storymap({
