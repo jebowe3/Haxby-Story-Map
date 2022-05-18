@@ -1,7 +1,11 @@
 /*. cnavbar {*/
 /*background-color: #B51E1E !important*/
 /*}*/
-
+.dropdown-menu {
+  max-height:300px;/*The important part*/
+  overflow-y:auto;/*Also...*/
+  overflow-x:hidden;/*And the end of the important part*/
+}
 
 .social {
     position:fixed;
